@@ -15,10 +15,18 @@
  */
 package org.cloudfoundry.identity.uaa.api.client;
 
+import org.cloudfoundry.identity.uaa.api.client.model.UaaClient;
+
 /**
  * @author Josh Ghiloni
  *
  */
-public class UaaClient {
+public interface UaaClientOperations {
+	public void create(UaaClient client);
 
+	public UaaClient findById(String clientId);
+
+	public void update(UaaClient updated);
+
+	public void delete(String clientId);
 }
