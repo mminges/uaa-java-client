@@ -52,4 +52,6 @@ public class FilterRequest {
 	public List<String> getAttributes() {
 		return attributes;
 	}
+	
+	public static final FilterRequest SHOW_ALL = new FilterRequest(null, null, 0, 0);
 }

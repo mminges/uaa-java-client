@@ -21,6 +21,4 @@ package org.cloudfoundry.identity.uaa.api.client;
  */
 public interface UaaConnection {
 	public UaaClientOperations clientOperations();
-	
-	public UaaListOperations listOperations();
 }

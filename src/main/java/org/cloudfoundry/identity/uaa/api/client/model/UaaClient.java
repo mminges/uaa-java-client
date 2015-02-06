@@ -18,35 +18,37 @@ package org.cloudfoundry.identity.uaa.api.client.model;
 import java.util.Collection;
 import java.util.Collections;
 
+import org.codehaus.jackson.annotate.JsonIgnoreProperties;
 import org.codehaus.jackson.annotate.JsonProperty;
 
 /**
  * @author Josh Ghiloni
  *
  */
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class UaaClient {
-	
+
 	@JsonProperty("client_id")
 	private String clientId;
-	
+
 	@JsonProperty("client_secret")
 	private String clientSecret;
-	
+
 	@JsonProperty("access_token_validity")
 	private int accessTokenValidity;
-	
+
 	@JsonProperty("refresh_token_validity")
 	private int refreshTokenValidity;
-	
+
 	@JsonProperty("scope")
 	private Collection<String> scope;
-	
+
 	@JsonProperty("resource_ids")
 	private Collection<String> resourceIds;
-	
+
 	@JsonProperty("authorities")
 	private Collection<String> authorities;
-	
+
 	@JsonProperty("authorized_grant_types")
 	private Collection<UaaTokenGrantType> authorizedGrantTypes;
 
@@ -83,7 +85,12 @@ public class UaaClient {
 	}
 
 	public Collection<String> getScope() {
-		return scope;
+		if (scope != null) {
+			return scope;
+		}
+		else {
+			return Collections.emptyList();
+		}
 	}
 
 	public void setScope(Collection<String> scope) {
@@ -91,7 +98,12 @@ public class UaaClient {
 	}
 
 	public Collection<String> getResourceIds() {
-		return Collections.unmodifiableCollection(resourceIds);
+		if (resourceIds != null) {
+			return Collections.unmodifiableCollection(resourceIds);
+		}
+		else {
+			return Collections.emptyList();
+		}
 	}
 
 	public void setResourceIds(Collection<String> resourceIds) {
@@ -99,7 +111,12 @@ public class UaaClient {
 	}
 
 	public Collection<String> getAuthorities() {
-		return Collections.unmodifiableCollection(authorities);
+		if (authorities != null) {
+			return Collections.unmodifiableCollection(authorities);
+		}
+		else {
+			return Collections.emptyList();
+		}
 	}
 
 	public void setAuthorities(Collection<String> authorities) {
@@ -107,7 +124,12 @@ public class UaaClient {
 	}
 
 	public Collection<UaaTokenGrantType> getAuthorizedGrantTypes() {
-		return Collections.unmodifiableCollection(this.authorizedGrantTypes);
+		if (authorizedGrantTypes != null) {
+			return Collections.unmodifiableCollection(this.authorizedGrantTypes);
+		}
+		else {
+			return Collections.emptyList();
+		}
 	}
 
 	public void setAuthorizedGrantTypes(Collection<UaaTokenGrantType> authorizedGrantTypes) {

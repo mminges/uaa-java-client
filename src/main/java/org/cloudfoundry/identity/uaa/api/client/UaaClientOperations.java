@@ -15,6 +15,8 @@
  */
 package org.cloudfoundry.identity.uaa.api.client;
 
+import org.cloudfoundry.identity.uaa.api.client.model.FilterRequest;
+import org.cloudfoundry.identity.uaa.api.client.model.PagedResult;
 import org.cloudfoundry.identity.uaa.api.client.model.UaaClient;
 
 /**
@@ -22,11 +24,15 @@ import org.cloudfoundry.identity.uaa.api.client.model.UaaClient;
  *
  */
 public interface UaaClientOperations {
-	public void create(UaaClient client);
+	public UaaClient create(UaaClient client);
 
 	public UaaClient findById(String clientId);
 
-	public void update(UaaClient updated);
+	public UaaClient update(UaaClient updated);
 
-	public void delete(String clientId);
+	public UaaClient delete(String clientId);
+	
+	public PagedResult<UaaClient> getClients(FilterRequest request);
+	
+	public boolean changeClientSecret(String clientId, String oldSecret, String newSecret);
 }

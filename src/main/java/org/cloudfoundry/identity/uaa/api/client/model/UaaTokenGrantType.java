@@ -20,5 +20,5 @@ package org.cloudfoundry.identity.uaa.api.client.model;
  *
  */
 public enum UaaTokenGrantType {
-	client_credentials, implicit, authorization_code, password
+	client_credentials, implicit, authorization_code, password, refresh_token
 }

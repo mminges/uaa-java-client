@@ -16,41 +16,61 @@
 package org.cloudfoundry.identity.uaa.api.client.model;
 
 import java.util.Collection;
-import java.util.Iterator;
-
-import org.springframework.util.Assert;
+import java.util.List;
 
 /**
  * @author Josh Ghiloni
  *
  */
-public class PagedResult<T> implements Iterable<T> {
+public abstract class PagedResult<T> {
 
-	private Collection<T> results;
+	private Collection<T> resources;
 
-	private int start = -1;
+	private int startIndex;
 
-	private int count = -1;
+	private int itemsPerPage;
 
-	public PagedResult(Collection<T> results, int start, int count) {
-		Assert.notNull(results);
-		Assert.state(start >= 0);
-		Assert.state(count >= 0);
-		
-		this.results = results;
-		this.start = start;
-		this.count = count;
+	private int totalResults;
+
+	private List<String> schemas;
+
+	public Collection<T> getResources() {
+		return resources;
 	}
 
-	public int getStart() {
-		return start;
+	public void setResources(Collection<T> resources) {
+		this.resources = resources;
 	}
 
-	public int getCount() {
-		return count;
+	public int getStartIndex() {
+		return startIndex;
 	}
 
-	public Iterator<T> iterator() {
-		return results.iterator();
+	public void setStartIndex(int startIndex) {
+		this.startIndex = startIndex;
+	}
+
+	public int getItemsPerPage() {
+		return itemsPerPage;
+	}
+
+	public void setItemsPerPage(int itemsPerPage) {
+		this.itemsPerPage = itemsPerPage;
+	}
+
+	public int getTotalResults() {
+		return totalResults;
+	}
+
+	public void setTotalResults(int totalResults) {
+		this.totalResults = totalResults;
+	}
+
+	public List<String> getSchemas() {
+		return schemas;
+	}
+
+	public void setSchemas(List<String> schemas) {
+		this.schemas = schemas;
 	}
 }

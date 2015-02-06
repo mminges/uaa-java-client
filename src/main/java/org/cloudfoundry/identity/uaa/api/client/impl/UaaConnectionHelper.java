@@ -15,17 +15,24 @@
  */
 package org.cloudfoundry.identity.uaa.api.client.impl;
 
+import java.io.IOException;
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
+import java.util.List;
 
 import org.cloudfoundry.identity.uaa.api.client.model.UaaCredentials;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
+import org.springframework.http.HttpRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.http.client.ClientHttpRequestExecution;
+import org.springframework.http.client.ClientHttpRequestInterceptor;
+import org.springframework.http.client.ClientHttpResponse;
 import org.springframework.security.oauth2.client.resource.OAuth2ProtectedResourceDetails;
 import org.springframework.security.oauth2.client.token.AccessTokenProvider;
 import org.springframework.security.oauth2.client.token.AccessTokenProviderChain;
@@ -63,32 +70,33 @@ public class UaaConnectionHelper {
 	}
 
 	public <ResponseType> ResponseType get(String uri, Class<ResponseType> responseType, Object... uriVariables) {
-		return exchange(HttpMethod.GET, null, null, uri, responseType, uriVariables);
+		return exchange(HttpMethod.GET, null, uri, responseType, uriVariables);
 	}
 
 	public <ResponseType> ResponseType delete(String uri, Class<ResponseType> responseType, Object... uriVariables) {
-		return exchange(HttpMethod.DELETE, null, null, uri, responseType, uriVariables);
+		return exchange(HttpMethod.DELETE, null, uri, responseType, uriVariables);
 	}
 
 	public <RequestType, ResponseType> ResponseType post(String uri, RequestType body,
 			Class<ResponseType> responseType, Object... uriVariables) {
-		return exchange(HttpMethod.POST, null, body, uri, responseType, uriVariables);
+		return exchange(HttpMethod.POST, body, uri, responseType, uriVariables);
 	}
 
 	public <RequestType, ResponseType> ResponseType put(String uri, RequestType body, Class<ResponseType> responseType,
 			Object... uriVariables) {
-		return exchange(HttpMethod.PUT, null, body, uri, responseType, uriVariables);
+		return exchange(HttpMethod.PUT, body, uri, responseType, uriVariables);
 	}
 
-	public <RequestType, ResponseType> ResponseType exchange(HttpMethod method, HttpHeaders headers, RequestType body,
-			String uri, Class<ResponseType> responseType, Object... uriVariables) {
-		if (headers == null) {
-			headers = new HttpHeaders();
-		}
+	public <RequestType, ResponseType> ResponseType exchange(HttpMethod method, RequestType body, String uri,
+			Class<ResponseType> responseType, Object... uriVariables) {
+
+		HttpHeaders headers = new HttpHeaders();
 
 		getHeaders(headers);
 
 		RestTemplate template = new RestTemplate();
+		 template.setInterceptors(LoggerInterceptor.INTERCEPTOR);
+
 		HttpEntity<RequestType> requestEntity = null;
 		if (method == HttpMethod.GET || body == null) {
 			requestEntity = new HttpEntity<RequestType>(headers);
@@ -97,8 +105,15 @@ public class UaaConnectionHelper {
 			requestEntity = new HttpEntity<RequestType>(body, headers);
 		}
 
+		// combine url into the varargs
+		List<Object> varList = new ArrayList<Object>();
+		varList.add(url);
+		if (uriVariables != null && uriVariables.length > 0) {
+			varList.addAll(Arrays.asList(uriVariables));
+		}
+
 		ResponseEntity<ResponseType> responseEntity = template.exchange("{base}" + uri, method, requestEntity,
-				responseType, url, uriVariables);
+				responseType, varList.toArray());
 
 		if (HttpStatus.Series.SUCCESSFUL.equals(responseEntity.getStatusCode().series())) {
 			return responseEntity.getBody();
@@ -116,7 +131,7 @@ public class UaaConnectionHelper {
 			headers.setContentType(MediaType.APPLICATION_JSON);
 		}
 
-		if (headers.getAccept() == null || headers.getAccept().size() > 0) {
+		if (headers.getAccept() == null || headers.getAccept().size() == 0) {
 			headers.setAccept(Collections.singletonList(MediaType.APPLICATION_JSON));
 		}
 	}
@@ -178,4 +193,14 @@ public class UaaConnectionHelper {
 		return details;
 	}
 
+	private static class LoggerInterceptor implements ClientHttpRequestInterceptor {
+		public static final List<ClientHttpRequestInterceptor> INTERCEPTOR = Arrays
+				.<ClientHttpRequestInterceptor> asList(new LoggerInterceptor());
+
+		public ClientHttpResponse intercept(HttpRequest request, byte[] body, ClientHttpRequestExecution execution)
+				throws IOException {
+			System.out.println(new String(body, "UTF-8"));
+			return execution.execute(request, body);
+		}
+	}
 }

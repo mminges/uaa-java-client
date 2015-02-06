@@ -13,26 +13,12 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.cloudfoundry.identity.uaa.api.client.impl;
-
-import org.cloudfoundry.identity.uaa.api.client.UaaListOperations;
-import org.cloudfoundry.identity.uaa.api.client.model.FilterRequest;
-import org.cloudfoundry.identity.uaa.api.client.model.PagedResult;
-import org.cloudfoundry.identity.uaa.api.client.model.UaaClient;
+package org.cloudfoundry.identity.uaa.api.client.model;
 
 /**
  * @author Josh Ghiloni
  *
  */
-public class UaaListOperationsImpl implements UaaListOperations {
-	private UaaConnectionHelper helper;
+public class UaaClientsResults extends PagedResult<UaaClient> {
 
-	public UaaListOperationsImpl(UaaConnectionHelper helper) {
-		this.helper = helper;
-	}
-
-	public PagedResult<UaaClient> getClients(FilterRequest request) {
-		// TODO Auto-generated method stub
-		return null;
-	}
 }

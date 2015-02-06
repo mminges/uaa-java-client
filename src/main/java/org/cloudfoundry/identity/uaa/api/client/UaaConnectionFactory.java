@@ -26,13 +26,12 @@ import org.cloudfoundry.identity.uaa.api.client.model.UaaCredentials;
  *
  */
 public final class UaaConnectionFactory {
-	private UaaConnectionHelper helper = null;
-
-	public UaaConnectionFactory(URL uaaUrl, UaaCredentials credentials) {
-		helper = new UaaConnectionHelper(uaaUrl, credentials);
+	private UaaConnectionFactory() {
+		
 	}
 
-	public UaaConnection getConnection() {
+	public static UaaConnection getConnection(URL uaaUrl, UaaCredentials credentials) {
+		UaaConnectionHelper helper = new UaaConnectionHelper(uaaUrl, credentials);
 		return new UaaConnectionImpl(helper);
 	}
 }
