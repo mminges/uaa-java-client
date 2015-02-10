@@ -13,11 +13,12 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.cloudfoundry.identity.uaa.api.client.model;
+package org.cloudfoundry.identity.uaa.api.client.model.client;
 
 import java.util.Collection;
 import java.util.Collections;
 
+import org.cloudfoundry.identity.uaa.api.client.model.auth.UaaTokenGrantType;
 import org.codehaus.jackson.annotate.JsonIgnoreProperties;
 import org.codehaus.jackson.annotate.JsonProperty;
 

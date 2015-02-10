@@ -15,17 +15,14 @@
  */
 package org.cloudfoundry.identity.uaa.api.client.impl;
 
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 import org.cloudfoundry.identity.uaa.api.client.UaaClientOperations;
-import org.cloudfoundry.identity.uaa.api.client.model.FilterRequest;
-import org.cloudfoundry.identity.uaa.api.client.model.UaaClient;
-import org.cloudfoundry.identity.uaa.api.client.model.UaaClientsResults;
+import org.cloudfoundry.identity.uaa.api.client.model.client.UaaClient;
+import org.cloudfoundry.identity.uaa.api.client.model.client.UaaClientsResults;
+import org.cloudfoundry.identity.uaa.api.client.model.list.FilterRequest;
 import org.springframework.util.Assert;
-import org.springframework.util.StringUtils;
 
 /**
  * @author Josh Ghiloni
@@ -65,72 +62,8 @@ public class UaaClientOperationsImpl implements UaaClientOperations {
 
 	public UaaClientsResults getClients(FilterRequest request) {
 		Assert.notNull(request);
-		StringBuilder uriBuilder = new StringBuilder("/oauth/clients?");
 
-		boolean hasAttr = false;
-		boolean hasFilter = false;
-		boolean hasStart = false;
-		boolean hasCount = false;
-		boolean hasParams = false;
-
-		if (request.getAttributes() != null && !request.getAttributes().isEmpty()) {
-			uriBuilder.append("attributes={attributes}");
-
-			// remove the last comma
-			uriBuilder.deleteCharAt(uriBuilder.length() - 1);
-			hasAttr = true;
-			hasParams = true;
-		}
-
-		if (StringUtils.hasText(request.getFilter())) {
-			if (hasParams) {
-				uriBuilder.append("&");
-			}
-
-			uriBuilder.append("filter={filter}");
-			hasFilter = true;
-			hasParams = true;
-		}
-
-		if (request.getStart() > 0) {
-			if (hasParams) {
-				uriBuilder.append("&");
-			}
-
-			uriBuilder.append("startIndex={start}");
-			hasStart = true;
-			hasParams = true;
-		}
-
-		if (request.getCount() > 0) {
-			if (hasParams) {
-				uriBuilder.append("&");
-			}
-
-			uriBuilder.append("count={count}");
-			hasCount = true;
-			hasParams = true;
-		}
-
-		List<Object> varArgList = new ArrayList<Object>();
-
-		if (hasAttr) {
-			varArgList.add(joinList(request.getAttributes(), ","));
-		}
-
-		if (hasFilter) {
-			varArgList.add(request.getFilter());
-		}
-
-		if (hasStart) {
-			varArgList.add(request.getStart());
-		}
-
-		if (hasCount) {
-			varArgList.add(request.getCount());
-		}
-
-		return helper.get(uriBuilder.toString(), UaaClientsResults.class, varArgList.toArray());
+		return helper.get(helper.buildScimFilterUrl("/oauth/clients", request), UaaClientsResults.class);
 	}
 
 	public boolean changeClientSecret(String clientId, String oldSecret, String newSecret) {
@@ -142,25 +75,5 @@ public class UaaClientOperationsImpl implements UaaClientOperations {
 		System.out.println(result);
 		
 		return (result != null);
-	}
-
-	private String joinList(List<?> list, String joiner) {
-		Assert.state(list != null && !list.isEmpty());
-
-		if (joiner == null) {
-			joiner = "";
-		}
-
-		StringBuilder b = new StringBuilder();
-		for (Object o : list) {
-			b.append(o).append(joiner);
-		}
-
-		// delete the last instance of joiner
-		if (joiner.length() > 0) {
-			b.delete(b.length() - joiner.length(), joiner.length());
-		}
-
-		return b.toString();
 	}
 }

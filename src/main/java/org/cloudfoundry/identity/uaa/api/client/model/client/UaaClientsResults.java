@@ -13,7 +13,9 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.cloudfoundry.identity.uaa.api.client.model;
+package org.cloudfoundry.identity.uaa.api.client.model.client;
+
+import org.cloudfoundry.identity.uaa.api.client.model.list.PagedResult;
 
 /**
  * @author Josh Ghiloni

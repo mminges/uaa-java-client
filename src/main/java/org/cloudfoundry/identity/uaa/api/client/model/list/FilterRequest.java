@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.cloudfoundry.identity.uaa.api.client.model;
+package org.cloudfoundry.identity.uaa.api.client.model.list;
 
 import java.util.List;
 
@@ -29,6 +29,10 @@ public class FilterRequest {
 	private int start;
 
 	private int count;
+	
+	public FilterRequest() {
+		
+	}
 
 	public FilterRequest(String filter, List<String> attributes, int start, int count) {
 		this.filter = filter;

@@ -22,7 +22,8 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
-import org.cloudfoundry.identity.uaa.api.client.model.UaaCredentials;
+import org.cloudfoundry.identity.uaa.api.client.model.auth.UaaCredentials;
+import org.cloudfoundry.identity.uaa.api.client.model.list.FilterRequest;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
@@ -89,13 +90,15 @@ public class UaaConnectionHelper {
 
 	public <RequestType, ResponseType> ResponseType exchange(HttpMethod method, RequestType body, String uri,
 			Class<ResponseType> responseType, Object... uriVariables) {
+		return exchange(method, new HttpHeaders(), body, uri, responseType, uriVariables);
+	}
 
-		HttpHeaders headers = new HttpHeaders();
-
+	public <RequestType, ResponseType> ResponseType exchange(HttpMethod method, HttpHeaders headers, RequestType body,
+			String uri, Class<ResponseType> responseType, Object... uriVariables) {
 		getHeaders(headers);
 
 		RestTemplate template = new RestTemplate();
-		 template.setInterceptors(LoggerInterceptor.INTERCEPTOR);
+		template.setInterceptors(LoggerInterceptor.INTERCEPTOR);
 
 		HttpEntity<RequestType> requestEntity = null;
 		if (method == HttpMethod.GET || body == null) {
@@ -121,6 +124,57 @@ public class UaaConnectionHelper {
 		else {
 			return null;
 		}
+	}
+
+	public String buildScimFilterUrl(String baseUrl, FilterRequest request) {
+		StringBuilder uriBuilder = new StringBuilder(baseUrl);
+
+		boolean hasParams = false;
+
+		if (request.getAttributes() != null && !request.getAttributes().isEmpty()) {
+			uriBuilder.append("?attributes=").append(
+					StringUtils.collectionToCommaDelimitedString(request.getAttributes()));
+
+			hasParams = true;
+		}
+
+		if (StringUtils.hasText(request.getFilter())) {
+			if (hasParams) {
+				uriBuilder.append("&");
+			}
+			else {
+				uriBuilder.append("?");
+			}
+
+			uriBuilder.append("filter=").append(request.getFilter());
+			hasParams = true;
+		}
+
+		if (request.getStart() > 0) {
+			if (hasParams) {
+				uriBuilder.append("&");
+			}
+			else {
+				uriBuilder.append("?");
+			}
+
+			uriBuilder.append("startIndex=").append(request.getStart());
+			hasParams = true;
+		}
+
+		if (request.getCount() > 0) {
+			if (hasParams) {
+				uriBuilder.append("&");
+			}
+			else {
+				uriBuilder.append("?");
+			}
+
+			uriBuilder.append("count=").append(request.getCount());
+			hasParams = true;
+		}
+
+		return uriBuilder.toString();
 	}
 
 	private void getHeaders(HttpHeaders headers) {

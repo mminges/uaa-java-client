@@ -24,11 +24,11 @@ import java.util.Collections;
 import org.cloudfoundry.identity.uaa.api.client.UaaClientOperations;
 import org.cloudfoundry.identity.uaa.api.client.UaaConnection;
 import org.cloudfoundry.identity.uaa.api.client.UaaConnectionFactory;
-import org.cloudfoundry.identity.uaa.api.client.model.FilterRequest;
-import org.cloudfoundry.identity.uaa.api.client.model.PagedResult;
-import org.cloudfoundry.identity.uaa.api.client.model.UaaClient;
-import org.cloudfoundry.identity.uaa.api.client.model.UaaCredentials;
-import org.cloudfoundry.identity.uaa.api.client.model.UaaTokenGrantType;
+import org.cloudfoundry.identity.uaa.api.client.model.auth.UaaCredentials;
+import org.cloudfoundry.identity.uaa.api.client.model.auth.UaaTokenGrantType;
+import org.cloudfoundry.identity.uaa.api.client.model.client.UaaClient;
+import org.cloudfoundry.identity.uaa.api.client.model.list.FilterRequest;
+import org.cloudfoundry.identity.uaa.api.client.model.list.PagedResult;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
@@ -36,7 +36,7 @@ import org.junit.Test;
  * @author Josh Ghiloni
  *
  */
-public class UaaClientTest {
+public class UaaClientOperationTest {
 
 	private static UaaClientOperations operations;
 

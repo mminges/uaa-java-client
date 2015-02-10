@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.cloudfoundry.identity.uaa.api.client.model;
+package org.cloudfoundry.identity.uaa.api.client.model.list;
 
 import java.util.Collection;
 import java.util.List;
