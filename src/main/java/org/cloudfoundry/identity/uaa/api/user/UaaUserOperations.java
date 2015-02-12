@@ -13,26 +13,24 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.cloudfoundry.identity.uaa.api.client;
+package org.cloudfoundry.identity.uaa.api.user;
 
-import org.cloudfoundry.identity.uaa.api.client.model.UaaClient;
 import org.cloudfoundry.identity.uaa.api.common.model.FilterRequest;
 import org.cloudfoundry.identity.uaa.api.common.model.PagedResult;
+import org.cloudfoundry.identity.uaa.api.user.model.UaaUser;
 
 /**
  * @author Josh Ghiloni
  *
  */
-public interface UaaClientOperations {
-	public UaaClient create(UaaClient client);
-
-	public UaaClient findById(String clientId);
-
-	public UaaClient update(UaaClient updated);
-
-	public UaaClient delete(String clientId);
+public interface UaaUserOperations {
+	public UaaUser createUser(UaaUser user);
 	
-	public PagedResult<UaaClient> getClients(FilterRequest request);
+	public UaaUser updateUser(UaaUser user);
 	
-	public boolean changeClientSecret(String clientId, String oldSecret, String newSecret);
+	public void deleteUser(String userId);
+	
+	public void changeUserPassword(String userId, String newPassword);
+	
+	public PagedResult<UaaUser> getUsers(FilterRequest request);
 }

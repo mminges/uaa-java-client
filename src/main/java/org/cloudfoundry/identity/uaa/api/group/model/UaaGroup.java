@@ -13,10 +13,11 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.cloudfoundry.identity.uaa.api.client.model.group;
+package org.cloudfoundry.identity.uaa.api.group.model;
 
 import java.util.Collection;
 
+import org.cloudfoundry.identity.uaa.api.common.model.ScimMetaObject;
 import org.codehaus.jackson.annotate.JsonIgnoreProperties;
 import org.codehaus.jackson.map.annotate.JsonSerialize;
 import org.codehaus.jackson.map.annotate.JsonSerialize.Inclusion;

@@ -13,26 +13,26 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.cloudfoundry.identity.uaa.api.client.model.group;
+package org.cloudfoundry.identity.uaa.api;
+
+import java.net.URL;
+
+import org.cloudfoundry.identity.uaa.api.common.UaaConnection;
+import org.cloudfoundry.identity.uaa.api.common.impl.UaaConnectionHelper;
+import org.cloudfoundry.identity.uaa.api.common.impl.UaaConnectionImpl;
+import org.cloudfoundry.identity.uaa.api.common.model.UaaCredentials;
 
 /**
  * @author Josh Ghiloni
  *
  */
-public enum UaaGroupMappingIdentifier {
-	GROUP_ID("groupId"), DISPLAY_NAME("displayName");
-
-	private String jsonValue;
-
-	UaaGroupMappingIdentifier(String jsonValue) {
-		this.jsonValue = jsonValue;
+public final class UaaConnectionFactory {
+	private UaaConnectionFactory() {
+		
 	}
 
-	public String toString() {
-		return jsonValue;
-	}
-	
-	public String jsonKey() {
-		return jsonValue;
+	public static UaaConnection getConnection(URL uaaUrl, UaaCredentials credentials) {
+		UaaConnectionHelper helper = new UaaConnectionHelper(uaaUrl, credentials);
+		return new UaaConnectionImpl(helper);
 	}
 }

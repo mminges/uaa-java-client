@@ -15,20 +15,23 @@
  */
 package org.cloudfoundry.identity.uaa.api.client.test;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotEquals;
+import static org.junit.Assert.assertNull;
+import static org.junit.Assert.fail;
 
 import java.net.URL;
 import java.util.Arrays;
 import java.util.Collections;
 
+import org.cloudfoundry.identity.uaa.api.UaaConnectionFactory;
 import org.cloudfoundry.identity.uaa.api.client.UaaClientOperations;
-import org.cloudfoundry.identity.uaa.api.client.UaaConnection;
-import org.cloudfoundry.identity.uaa.api.client.UaaConnectionFactory;
-import org.cloudfoundry.identity.uaa.api.client.model.auth.UaaCredentials;
-import org.cloudfoundry.identity.uaa.api.client.model.auth.UaaTokenGrantType;
-import org.cloudfoundry.identity.uaa.api.client.model.client.UaaClient;
-import org.cloudfoundry.identity.uaa.api.client.model.list.FilterRequest;
-import org.cloudfoundry.identity.uaa.api.client.model.list.PagedResult;
+import org.cloudfoundry.identity.uaa.api.client.model.UaaClient;
+import org.cloudfoundry.identity.uaa.api.common.UaaConnection;
+import org.cloudfoundry.identity.uaa.api.common.model.FilterRequest;
+import org.cloudfoundry.identity.uaa.api.common.model.PagedResult;
+import org.cloudfoundry.identity.uaa.api.common.model.UaaCredentials;
+import org.cloudfoundry.identity.uaa.api.common.model.UaaTokenGrantType;
 import org.junit.BeforeClass;
 import org.junit.Test;
 

@@ -13,17 +13,20 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.cloudfoundry.identity.uaa.api.client.impl;
+package org.cloudfoundry.identity.uaa.api.common.impl;
 
 import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
+import java.util.Map;
 
-import org.cloudfoundry.identity.uaa.api.client.model.auth.UaaCredentials;
-import org.cloudfoundry.identity.uaa.api.client.model.list.FilterRequest;
+import org.cloudfoundry.identity.uaa.api.common.model.FilterRequest;
+import org.cloudfoundry.identity.uaa.api.common.model.ScimMetaObject;
+import org.cloudfoundry.identity.uaa.api.common.model.UaaCredentials;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
@@ -88,12 +91,43 @@ public class UaaConnectionHelper {
 		return exchange(HttpMethod.PUT, body, uri, responseType, uriVariables);
 	}
 
-	public <RequestType, ResponseType> ResponseType exchange(HttpMethod method, RequestType body, String uri,
+	public <RequestType extends ScimMetaObject, ResponseType> ResponseType putScimObject(String uri, RequestType body,
+			Class<ResponseType> responseType, Object... uriVariables) {
+		HttpHeaders headers = new HttpHeaders();
+		headers.set("if-match", body.getMeta().get("version"));
+
+		return exchange(HttpMethod.PUT, headers, body, uri, responseType, uriVariables);
+	}
+
+	public String getUserIdByName(String userName) {
+		FilterRequest request = new FilterRequest(String.format("userName eq \"%s\"", userName), Arrays.asList("id"),
+				0, 0);
+
+		String uri = buildScimFilterUrl("/Users", request);
+
+		try {
+
+			@SuppressWarnings("unchecked")
+			Map<String, Object> retval = exchange(HttpMethod.GET, null, uri, Map.class);
+
+			@SuppressWarnings("unchecked")
+			Collection<Map<String, Object>> resources = (Collection<Map<String, Object>>) retval.get("resources");
+
+			Map<String, Object> first = resources.iterator().next();
+			return (String) first.get("id");
+		}
+		catch (Throwable t) {
+			t.printStackTrace();
+			return null;
+		}
+	}
+
+	private <RequestType, ResponseType> ResponseType exchange(HttpMethod method, RequestType body, String uri,
 			Class<ResponseType> responseType, Object... uriVariables) {
 		return exchange(method, new HttpHeaders(), body, uri, responseType, uriVariables);
 	}
 
-	public <RequestType, ResponseType> ResponseType exchange(HttpMethod method, HttpHeaders headers, RequestType body,
+	private <RequestType, ResponseType> ResponseType exchange(HttpMethod method, HttpHeaders headers, RequestType body,
 			String uri, Class<ResponseType> responseType, Object... uriVariables) {
 		getHeaders(headers);
 

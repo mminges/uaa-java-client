@@ -13,30 +13,31 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.cloudfoundry.identity.uaa.api.client.impl;
+package org.cloudfoundry.identity.uaa.api.group.impl;
+
+import static org.cloudfoundry.identity.uaa.api.common.model.ScimMetaObject.SCHEMAS;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collection;
 import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.cloudfoundry.identity.uaa.api.client.UaaGroupOperations;
-import org.cloudfoundry.identity.uaa.api.client.model.group.ScimMetaObject;
-import org.cloudfoundry.identity.uaa.api.client.model.group.UaaGroup;
-import org.cloudfoundry.identity.uaa.api.client.model.group.UaaGroupMapping;
-import org.cloudfoundry.identity.uaa.api.client.model.group.UaaGroupMappingIdentifier;
-import org.cloudfoundry.identity.uaa.api.client.model.group.UaaGroupMappingsResults;
-import org.cloudfoundry.identity.uaa.api.client.model.group.UaaGroupMember;
-import org.cloudfoundry.identity.uaa.api.client.model.group.UaaGroupsResults;
-import org.cloudfoundry.identity.uaa.api.client.model.list.FilterRequest;
+import org.cloudfoundry.identity.uaa.api.common.impl.UaaConnectionHelper;
+import org.cloudfoundry.identity.uaa.api.common.model.FilterRequest;
+import org.cloudfoundry.identity.uaa.api.common.model.ScimMetaObject;
+import org.cloudfoundry.identity.uaa.api.group.UaaGroupOperations;
+import org.cloudfoundry.identity.uaa.api.group.model.UaaGroup;
+import org.cloudfoundry.identity.uaa.api.group.model.UaaGroupMapping;
+import org.cloudfoundry.identity.uaa.api.group.model.UaaGroupMappingIdentifier;
+import org.cloudfoundry.identity.uaa.api.group.model.UaaGroupMappingsResults;
+import org.cloudfoundry.identity.uaa.api.group.model.UaaGroupMember;
+import org.cloudfoundry.identity.uaa.api.group.model.UaaGroupsResults;
 import org.codehaus.jackson.annotate.JsonIgnoreProperties;
 import org.codehaus.jackson.map.annotate.JsonSerialize;
 import org.codehaus.jackson.map.annotate.JsonSerialize.Inclusion;
 import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpMethod;
 import org.springframework.util.Assert;
 import org.springframework.util.StringUtils;
 
@@ -47,8 +48,6 @@ import org.springframework.util.StringUtils;
 public class UaaGroupOperationsImpl implements UaaGroupOperations {
 
 	private UaaConnectionHelper helper;
-
-	private static final List<String> SCHEMAS = Arrays.asList("urn:scim:schemas:core:1.0");
 
 	public UaaGroupOperationsImpl(UaaConnectionHelper helper) {
 		this.helper = helper;
@@ -118,17 +117,17 @@ public class UaaGroupOperationsImpl implements UaaGroupOperations {
 		group.setDisplayName(newName);
 
 		UaaModificationGroup modGroup = new UaaModificationGroup(group);
-		
+
 		return updateGroup(modGroup);
 	}
 
 	public UaaGroup addMember(String groupId, String memberUserName) {
 		Assert.hasText(memberUserName);
 
-		UaaGroup group = getGroupById(groupId);		
+		UaaGroup group = getGroupById(groupId);
 		UaaModificationGroup modGroup = new UaaModificationGroup(group);
 
-		String memberId = getUserId(memberUserName);
+		String memberId = helper.getUserIdByName(memberUserName);
 
 		Collection<String> members = modGroup.getMembers();
 		if (members == null) {
@@ -146,8 +145,8 @@ public class UaaGroupOperationsImpl implements UaaGroupOperations {
 
 		UaaGroup group = getGroupById(groupId);
 		UaaModificationGroup modGroup = new UaaModificationGroup(group);
-		
-		String memberId = getUserId(memberUserName);
+
+		String memberId = helper.getUserIdByName(memberUserName);
 
 		Collection<String> members = modGroup.getMembers();
 		if (members != null && !members.isEmpty()) {
@@ -181,28 +180,7 @@ public class UaaGroupOperationsImpl implements UaaGroupOperations {
 		HttpHeaders headers = new HttpHeaders();
 		headers.set("if-match", group.getMeta().get("version"));
 
-		return helper.exchange(HttpMethod.PUT, headers, group, "/Groups/{id}", UaaGroup.class, group.getId());
-	}
-
-	// TODO move to user services or helper once available, if possible?
-	@SuppressWarnings("unchecked")
-	private String getUserId(String memberName) {
-		FilterRequest request = new FilterRequest(String.format("userName eq \"%s\"", memberName), Arrays.asList("id"),
-				0, 0);
-
-		String uri = helper.buildScimFilterUrl("/Users", request);
-
-		try {
-
-			Map<String, Object> retval = helper.exchange(HttpMethod.GET, null, uri, Map.class);
-			Collection<Map<String, Object>> resources = (Collection<Map<String, Object>>) retval.get("resources");
-			Map<String, Object> first = resources.iterator().next();
-			return (String) first.get("id");
-		}
-		catch (Throwable t) {
-			t.printStackTrace();
-			return null;
-		}
+		return helper.putScimObject("/Groups/{id}", group, UaaGroup.class, group.getId());
 	}
 
 	@JsonIgnoreProperties(ignoreUnknown = true)
@@ -214,21 +192,21 @@ public class UaaGroupOperationsImpl implements UaaGroupOperations {
 		private String groupId;
 
 		private Collection<String> members;
-		
+
 		UaaModificationGroup(UaaGroup clone) {
 			setDisplayName(clone.getDisplayName());
 			setGroupId(clone.getGroupId());
 			setSchemas(clone.getSchemas());
 			setId(clone.getId());
 			setMeta(clone.getMeta());
-			
+
 			Collection<UaaGroupMember> members = clone.getMembers();
 			if (members != null) {
 				List<String> memberIds = new ArrayList<String>(members.size());
 				for (UaaGroupMember member : members) {
 					memberIds.add(member.getValue());
 				}
-				
+
 				setMembers(memberIds);
 			}
 		}

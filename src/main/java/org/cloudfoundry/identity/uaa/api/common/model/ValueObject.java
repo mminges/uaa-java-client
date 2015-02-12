@@ -13,13 +13,20 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.cloudfoundry.identity.uaa.api.client;
+package org.cloudfoundry.identity.uaa.api.common.model;
 
 /**
  * @author Josh Ghiloni
  *
  */
-public interface UaaConnection {
-	public UaaClientOperations clientOperations();
-	public UaaGroupOperations groupOperations();
+public class ValueObject {
+	private String value;
+
+	public String getValue() {
+		return value;
+	}
+
+	public void setValue(String value) {
+		this.value = value;
+	}
 }

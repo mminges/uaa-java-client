@@ -13,11 +13,9 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.cloudfoundry.identity.uaa.api.client.model.group;
+package org.cloudfoundry.identity.uaa.api.group.model;
 
-import java.util.Collection;
-import java.util.Map;
-
+import org.cloudfoundry.identity.uaa.api.common.model.ScimMetaObject;
 import org.codehaus.jackson.annotate.JsonIgnoreProperties;
 import org.codehaus.jackson.map.annotate.JsonSerialize;
 import org.codehaus.jackson.map.annotate.JsonSerialize.Inclusion;
@@ -28,35 +26,35 @@ import org.codehaus.jackson.map.annotate.JsonSerialize.Inclusion;
  */
 @JsonIgnoreProperties(ignoreUnknown = true)
 @JsonSerialize(include = Inclusion.NON_NULL)
-public abstract class ScimMetaObject {
-	protected String id;
+public class UaaGroupMapping extends ScimMetaObject {
 
-	protected Collection<String> schemas;
+	private String groupId;
 
-	protected Map<String, String> meta;
+	private String displayName;
 
-	public String getId() {
-		return id;
+	private String externalGroup;
+
+	public String getGroupId() {
+		return groupId;
 	}
 
-	public void setId(String id) {
-		this.id = id;
+	public void setGroupId(String groupId) {
+		this.groupId = groupId;
 	}
 
-	public Collection<String> getSchemas() {
-		return schemas;
+	public String getDisplayName() {
+		return displayName;
 	}
 
-	public void setSchemas(Collection<String> schemas) {
-		this.schemas = schemas;
+	public void setDisplayName(String displayName) {
+		this.displayName = displayName;
 	}
 
-
-	public Map<String, String> getMeta() {
-		return meta;
+	public String getExternalGroup() {
+		return externalGroup;
 	}
 
-	public void setMeta(Map<String, String> meta) {
-		this.meta = meta;
+	public void setExternalGroup(String externalGroup) {
+		this.externalGroup = externalGroup;
 	}
 }

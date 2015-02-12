@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.cloudfoundry.identity.uaa.api.client.model.auth;
+package org.cloudfoundry.identity.uaa.api.common.model;
 
 /**
  * @author Josh Ghiloni

@@ -13,8 +13,11 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.cloudfoundry.identity.uaa.api.client.model.group;
+package org.cloudfoundry.identity.uaa.api.group.model;
 
+import java.util.Collection;
+
+import org.cloudfoundry.identity.uaa.api.common.model.ValueObject;
 import org.codehaus.jackson.annotate.JsonIgnoreProperties;
 import org.codehaus.jackson.map.annotate.JsonSerialize;
 import org.codehaus.jackson.map.annotate.JsonSerialize.Inclusion;
@@ -25,35 +28,24 @@ import org.codehaus.jackson.map.annotate.JsonSerialize.Inclusion;
  */
 @JsonIgnoreProperties(ignoreUnknown = true)
 @JsonSerialize(include = Inclusion.NON_NULL)
-public class UaaGroupMapping extends ScimMetaObject {
+public class UaaGroupMember extends ValueObject {
+	private String type;
 
-	private String groupId;
+	private Collection<String> authorities;
 
-	private String displayName;
-
-	private String externalGroup;
-
-	public String getGroupId() {
-		return groupId;
+	public String getType() {
+		return type;
 	}
 
-	public void setGroupId(String groupId) {
-		this.groupId = groupId;
+	public void setType(String type) {
+		this.type = type;
 	}
 
-	public String getDisplayName() {
-		return displayName;
+	public Collection<String> getAuthorities() {
+		return authorities;
 	}
 
-	public void setDisplayName(String displayName) {
-		this.displayName = displayName;
-	}
-
-	public String getExternalGroup() {
-		return externalGroup;
-	}
-
-	public void setExternalGroup(String externalGroup) {
-		this.externalGroup = externalGroup;
+	public void setAuthorities(Collection<String> authorities) {
+		this.authorities = authorities;
 	}
 }

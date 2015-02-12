@@ -13,13 +13,13 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.cloudfoundry.identity.uaa.api.client;
+package org.cloudfoundry.identity.uaa.api.group;
 
-import org.cloudfoundry.identity.uaa.api.client.model.group.UaaGroup;
-import org.cloudfoundry.identity.uaa.api.client.model.group.UaaGroupMapping;
-import org.cloudfoundry.identity.uaa.api.client.model.group.UaaGroupMappingIdentifier;
-import org.cloudfoundry.identity.uaa.api.client.model.list.FilterRequest;
-import org.cloudfoundry.identity.uaa.api.client.model.list.PagedResult;
+import org.cloudfoundry.identity.uaa.api.common.model.FilterRequest;
+import org.cloudfoundry.identity.uaa.api.common.model.PagedResult;
+import org.cloudfoundry.identity.uaa.api.group.model.UaaGroup;
+import org.cloudfoundry.identity.uaa.api.group.model.UaaGroupMapping;
+import org.cloudfoundry.identity.uaa.api.group.model.UaaGroupMappingIdentifier;
 
 /**
  * @author Josh Ghiloni

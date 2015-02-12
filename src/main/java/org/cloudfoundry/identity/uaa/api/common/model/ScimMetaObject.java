@@ -13,9 +13,12 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.cloudfoundry.identity.uaa.api.client.model.group;
+package org.cloudfoundry.identity.uaa.api.common.model;
 
+import java.util.Arrays;
 import java.util.Collection;
+import java.util.List;
+import java.util.Map;
 
 import org.codehaus.jackson.annotate.JsonIgnoreProperties;
 import org.codehaus.jackson.map.annotate.JsonSerialize;
@@ -27,34 +30,37 @@ import org.codehaus.jackson.map.annotate.JsonSerialize.Inclusion;
  */
 @JsonIgnoreProperties(ignoreUnknown = true)
 @JsonSerialize(include = Inclusion.NON_NULL)
-public class UaaGroupMember {
-	private String type;
+public abstract class ScimMetaObject {
+	public static final List<String> SCHEMAS = Arrays.asList("urn:scim:schemas:core:1.0");
+	
+	protected String id;
 
-	private Collection<String> authorities;
+	protected Collection<String> schemas;
 
-	private String value;
+	protected Map<String, String> meta;
 
-	public String getType() {
-		return type;
+	public String getId() {
+		return id;
 	}
 
-	public void setType(String type) {
-		this.type = type;
+	public void setId(String id) {
+		this.id = id;
 	}
 
-	public Collection<String> getAuthorities() {
-		return authorities;
+	public Collection<String> getSchemas() {
+		return schemas;
 	}
 
-	public void setAuthorities(Collection<String> authorities) {
-		this.authorities = authorities;
+	public void setSchemas(Collection<String> schemas) {
+		this.schemas = schemas;
 	}
 
-	public String getValue() {
-		return value;
+
+	public Map<String, String> getMeta() {
+		return meta;
 	}
 
-	public void setValue(String value) {
-		this.value = value;
+	public void setMeta(Map<String, String> meta) {
+		this.meta = meta;
 	}
 }

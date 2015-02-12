@@ -25,14 +25,14 @@ import java.net.Socket;
 import java.net.URL;
 import java.util.Collection;
 
-import org.cloudfoundry.identity.uaa.api.client.UaaConnection;
-import org.cloudfoundry.identity.uaa.api.client.UaaConnectionFactory;
-import org.cloudfoundry.identity.uaa.api.client.UaaGroupOperations;
-import org.cloudfoundry.identity.uaa.api.client.model.auth.UaaCredentials;
-import org.cloudfoundry.identity.uaa.api.client.model.group.UaaGroup;
-import org.cloudfoundry.identity.uaa.api.client.model.group.UaaGroupMember;
-import org.cloudfoundry.identity.uaa.api.client.model.list.FilterRequest;
-import org.cloudfoundry.identity.uaa.api.client.model.list.PagedResult;
+import org.cloudfoundry.identity.uaa.api.UaaConnectionFactory;
+import org.cloudfoundry.identity.uaa.api.common.UaaConnection;
+import org.cloudfoundry.identity.uaa.api.common.model.FilterRequest;
+import org.cloudfoundry.identity.uaa.api.common.model.PagedResult;
+import org.cloudfoundry.identity.uaa.api.common.model.UaaCredentials;
+import org.cloudfoundry.identity.uaa.api.group.UaaGroupOperations;
+import org.cloudfoundry.identity.uaa.api.group.model.UaaGroup;
+import org.cloudfoundry.identity.uaa.api.group.model.UaaGroupMember;
 import org.junit.BeforeClass;
 import org.junit.Test;
 

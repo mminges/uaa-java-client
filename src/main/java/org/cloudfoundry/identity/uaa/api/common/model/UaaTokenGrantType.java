@@ -13,14 +13,12 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.cloudfoundry.identity.uaa.api.client.model.group;
-
-import org.cloudfoundry.identity.uaa.api.client.model.list.PagedResult;
+package org.cloudfoundry.identity.uaa.api.common.model;
 
 /**
  * @author Josh Ghiloni
  *
  */
-public class UaaGroupMappingsResults extends PagedResult<UaaGroupMapping> {
-
+public enum UaaTokenGrantType {
+	client_credentials, implicit, authorization_code, password, refresh_token
 }
