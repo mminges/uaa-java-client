@@ -23,6 +23,16 @@ import org.codehaus.jackson.annotate.JsonIgnoreProperties;
 import org.codehaus.jackson.annotate.JsonProperty;
 
 /**
+ * An OAuth2 client
+ * 
+ * @author Josh Ghiloni
+ *
+ */
+/**
+ * @author Josh Ghiloni
+ *
+ */
+/**
  * @author Josh Ghiloni
  *
  */
@@ -53,38 +63,70 @@ public class UaaClient {
 	@JsonProperty("authorized_grant_types")
 	private Collection<UaaTokenGrantType> authorizedGrantTypes;
 
+	/**
+	 * 
+	 * @return the client id
+	 */
 	public String getClientId() {
 		return clientId;
 	}
 
+	/**
+	 * 
+	 * @param clientId the client id
+	 */
 	public void setClientId(String clientId) {
 		this.clientId = clientId;
 	}
 
+	/**
+	 * 
+	 * @return the client secret
+	 */
 	public String getClientSecret() {
 		return clientSecret;
 	}
 
+	/**
+	 * 
+	 * @param clientSecret the client secret
+	 */
 	public void setClientSecret(String clientSecret) {
 		this.clientSecret = clientSecret;
 	}
 
+	/**
+	 * 
+	 * @return the length of time this access token is valid (in seconds)
+	 */
 	public int getAccessTokenValidity() {
 		return accessTokenValidity;
 	}
 
+	/**
+	 * @param accessTokenValidity the length of time this access token is valid (in seconds)
+	 */
 	public void setAccessTokenValidity(int accessTokenValidity) {
 		this.accessTokenValidity = accessTokenValidity;
 	}
 
+	/**
+	 * @return the length of time this refresh token is valid (in seconds)
+	 */
 	public int getRefreshTokenValidity() {
 		return refreshTokenValidity;
 	}
 
+	/**
+	 * @param refreshTokenValidity the length of time this refresh token is valid (in seconds)
+	 */
 	public void setRefreshTokenValidity(int refreshTokenValidity) {
 		this.refreshTokenValidity = refreshTokenValidity;
 	}
 
+	/**
+	 * @return The scopes. Never null
+	 */
 	public Collection<String> getScope() {
 		if (scope != null) {
 			return scope;
@@ -94,10 +136,16 @@ public class UaaClient {
 		}
 	}
 
+	/**
+	 * @param scope The scopes this client is authorized to use
+	 */
 	public void setScope(Collection<String> scope) {
 		this.scope = scope;
 	}
 
+	/**
+	 * @return The resource IDs for this client. Never null.
+	 */
 	public Collection<String> getResourceIds() {
 		if (resourceIds != null) {
 			return Collections.unmodifiableCollection(resourceIds);
@@ -107,10 +155,16 @@ public class UaaClient {
 		}
 	}
 
+	/**
+	 * @param resourceIds The resource IDs for this client.
+	 */
 	public void setResourceIds(Collection<String> resourceIds) {
 		this.resourceIds = resourceIds;
 	}
 
+	/**
+	 * @return The list of authorities for this client. Never null.
+	 */
 	public Collection<String> getAuthorities() {
 		if (authorities != null) {
 			return Collections.unmodifiableCollection(authorities);
@@ -120,10 +174,16 @@ public class UaaClient {
 		}
 	}
 
+	/**
+	 * @param authorities The list of authorities for this client.
+	 */
 	public void setAuthorities(Collection<String> authorities) {
 		this.authorities = authorities;
 	}
 
+	/**
+	 * @return A collection of {@link org.cloudfoundry.identity.uaa.api.common.model.UaaTokenGrantType}
+	 */
 	public Collection<UaaTokenGrantType> getAuthorizedGrantTypes() {
 		if (authorizedGrantTypes != null) {
 			return Collections.unmodifiableCollection(this.authorizedGrantTypes);
@@ -133,6 +193,9 @@ public class UaaClient {
 		}
 	}
 
+	/**
+	 * @param authorizedGrantTypes A collection of {@link org.cloudfoundry.identity.uaa.api.common.model.UaaTokenGrantType}s
+	 */
 	public void setAuthorizedGrantTypes(Collection<UaaTokenGrantType> authorizedGrantTypes) {
 		this.authorizedGrantTypes = authorizedGrantTypes;
 	}

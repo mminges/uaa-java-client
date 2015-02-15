@@ -20,11 +20,24 @@ import org.cloudfoundry.identity.uaa.api.group.UaaGroupOperations;
 import org.cloudfoundry.identity.uaa.api.user.UaaUserOperations;
 
 /**
+ * A collection of objects to access different parts of the API
+ * 
  * @author Josh Ghiloni
  *
  */
 public interface UaaConnection {
+	/**
+	 * @return an entry point for client APIs
+	 */
 	public UaaClientOperations clientOperations();
+
+	/**
+	 * @return an entry point for group APIS
+	 */
 	public UaaGroupOperations groupOperations();
+
+	/**
+	 * @return an entry point for user APIs
+	 */
 	public UaaUserOperations userOperations();
 }

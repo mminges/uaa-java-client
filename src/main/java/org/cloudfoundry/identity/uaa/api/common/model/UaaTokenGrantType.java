@@ -16,8 +16,9 @@
 package org.cloudfoundry.identity.uaa.api.common.model;
 
 /**
+ * Represent the OAuth token type
+ * 
  * @author Josh Ghiloni
- *
  */
 public enum UaaTokenGrantType {
 	client_credentials, implicit, authorization_code, password, refresh_token

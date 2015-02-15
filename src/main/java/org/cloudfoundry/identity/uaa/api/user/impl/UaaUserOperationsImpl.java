@@ -29,6 +29,8 @@ import org.cloudfoundry.identity.uaa.api.user.model.UaaUsersResults;
 import org.springframework.util.Assert;
 
 /**
+ * @see UaaUserOperations
+ * 
  * @author Josh Ghiloni
  *
  */

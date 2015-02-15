@@ -23,6 +23,8 @@ import org.codehaus.jackson.map.annotate.JsonSerialize;
 import org.codehaus.jackson.map.annotate.JsonSerialize.Inclusion;
 
 /**
+ * A Java representation of the JSON returned by UAA Group API calls
+ * 
  * @author Josh Ghiloni
  *
  */
@@ -36,26 +38,49 @@ public class UaaGroup extends ScimMetaObject {
 
 	private Collection<UaaGroupMember> members;
 
+	/**
+	 * @return The group's display name
+	 */
 	public String getDisplayName() {
 		return displayName;
 	}
 
+	/**
+	 * 
+	 * @param displayName The group's display name
+	 */
 	public void setDisplayName(String displayName) {
 		this.displayName = displayName;
 	}
 
+	/**
+	 * @return The group's members
+	 */
 	public Collection<UaaGroupMember> getMembers() {
 		return members;
 	}
 
+	/**
+	 * This should only be called by JSON serialization engines
+	 * @param members the group members
+	 * @see org.cloudfoundry.identity.uaa.api.group.UaaGroupOperations#addMember(String, String)
+	 * @see org.cloudfoundry.identity.uaa.api.group.UaaGroupOperations#deleteMember(String, String)
+	 */
 	public void setMembers(Collection<UaaGroupMember> members) {
 		this.members = members;
 	}
 
+	/**
+	 * @return The group ID
+	 */
 	public String getGroupId() {
 		return groupId;
 	}
 
+	/**
+	 * 
+	 * @param groupId The group ID
+	 */
 	public void setGroupId(String groupId) {
 		this.groupId = groupId;
 	}

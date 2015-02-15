@@ -16,6 +16,9 @@
 package org.cloudfoundry.identity.uaa.api.group.model;
 
 /**
+ * How a UAA to LDAP group mapping is identified. This is specific to the UAA group, because the LDAP group is always
+ * identified by DN.
+ * 
  * @author Josh Ghiloni
  *
  */
@@ -31,7 +34,7 @@ public enum UaaGroupMappingIdentifier {
 	public String toString() {
 		return jsonValue;
 	}
-	
+
 	public String jsonKey() {
 		return jsonValue;
 	}

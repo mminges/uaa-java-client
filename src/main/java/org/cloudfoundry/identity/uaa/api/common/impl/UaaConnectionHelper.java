@@ -24,6 +24,8 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.cloudfoundry.identity.uaa.api.common.model.ScimMetaObject;
 import org.cloudfoundry.identity.uaa.api.common.model.UaaCredentials;
 import org.cloudfoundry.identity.uaa.api.common.model.expr.FilterRequest;
@@ -55,6 +57,9 @@ import org.springframework.util.StringUtils;
 import org.springframework.web.client.RestTemplate;
 
 /**
+ * A helper clas used by the various <code>*Operations</code> implementations to handle JSON HTTP communications with
+ * the UAA server
+ * 
  * @author Josh Ghiloni
  *
  */
@@ -69,29 +74,87 @@ public class UaaConnectionHelper {
 
 	private UaaCredentials creds;
 
+	private static final Log log = LogFactory.getLog(UaaConnectionHelper.class);
+
+	/**
+	 * Establish connectivity information for this session.
+	 * 
+	 * @param url
+	 * @param creds
+	 * @see org.cloudfoundry.identity.uaa.api.UaaConnectionFactory#getConnection(URL, UaaCredentials)
+	 */
 	public UaaConnectionHelper(URL url, UaaCredentials creds) {
 		this.url = url;
 		this.creds = creds;
 	}
 
+	/**
+	 * Do an HTTP GET
+	 * 
+	 * @param uri the URI of the endpoint (relative to the base URL set in the constructor)
+	 * @param responseType the object type to be returned
+	 * @param uriVariables any uri variables
+	 * @return the response body
+	 * @see #exchange(HttpMethod, Object, String, Class, Object...)
+	 */
 	public <ResponseType> ResponseType get(String uri, Class<ResponseType> responseType, Object... uriVariables) {
 		return exchange(HttpMethod.GET, null, uri, responseType, uriVariables);
 	}
 
+	/**
+	 * Do an HTTP DELETE
+	 * 
+	 * @param uri the URI of the endpoint (relative to the base URL set in the constructor)
+	 * @param responseType the object type to be returned
+	 * @param uriVariables any uri variables
+	 * @return the response body
+	 * @see #exchange(HttpMethod, Object, String, Class, Object...)
+	 */
 	public <ResponseType> ResponseType delete(String uri, Class<ResponseType> responseType, Object... uriVariables) {
 		return exchange(HttpMethod.DELETE, null, uri, responseType, uriVariables);
 	}
 
+	/**
+	 * Do an HTTP POST
+	 *
+	 * @param uri the URI of the endpoint (relative to the base URL set in the constructor)
+	 * @param body the request body
+	 * @param responseType the object type to be returned
+	 * @param uriVariables any uri variables
+	 * @return the response body
+	 * @see #exchange(HttpMethod, Object, String, Class, Object...)
+	 */
 	public <RequestType, ResponseType> ResponseType post(String uri, RequestType body,
 			Class<ResponseType> responseType, Object... uriVariables) {
 		return exchange(HttpMethod.POST, body, uri, responseType, uriVariables);
 	}
 
+	/**
+	 * Do an HTTP PUT
+	 *
+	 * @param uri the URI of the endpoint (relative to the base URL set in the constructor)
+	 * @param body the request body
+	 * @param responseType the object type to be returned
+	 * @param uriVariables any uri variables
+	 * @return the response body
+	 * @see #exchange(HttpMethod, Object, String, Class, Object...)
+	 */
 	public <RequestType, ResponseType> ResponseType put(String uri, RequestType body, Class<ResponseType> responseType,
 			Object... uriVariables) {
 		return exchange(HttpMethod.PUT, body, uri, responseType, uriVariables);
 	}
 
+	/**
+	 * Do an HTTP PUT with SCIM features. SCIM requires PUT requests of a SCIM object have the version of the object set
+	 * as the <code>If-Match</code> request header.
+	 *
+	 * @param uri the URI of the endpoint (relative to the base URL set in the constructor)
+	 * @param body the request body
+	 * @param responseType the object type to be returned
+	 * @param uriVariables any uri variables
+	 * @return the response body
+	 * @see #exchange(HttpMethod, HttpHeaders, Object, String, Class, Object...)
+	 */
 	public <RequestType extends ScimMetaObject, ResponseType> ResponseType putScimObject(String uri, RequestType body,
 			Class<ResponseType> responseType, Object... uriVariables) {
 		HttpHeaders headers = new HttpHeaders();
@@ -100,10 +163,27 @@ public class UaaConnectionHelper {
 		return exchange(HttpMethod.PUT, headers, body, uri, responseType, uriVariables);
 	}
 
+	/**
+	 * Convenience method to get a user ID for a given username. Equivalent to calling
+	 * 
+	 * <pre>
+	 * {@link org.cloudfoundry.identity.uaa.api.user.UaaUserOperations UaaUserOperations} operations = connection.userOperations();
+	 * 
+	 * {@link FilterRequestBuilder} builder = new FilterRequestBuilder();
+	 * builder.equals("username", userName).attributes("id");
+	 * 
+	 * {@link org.cloudfoundry.identity.uaa.api.user.model.UaaUsersResults} users = operations.getUsers(builder.build());
+	 * 
+	 * return users.getResources().iterator().next().getId();
+	 * </pre>
+	 * 
+	 * @param userName the userName
+	 * @return the user ID
+	 */
 	public String getUserIdByName(String userName) {
 		FilterRequestBuilder builder = new FilterRequestBuilder();
 		builder.equals("username", userName).attributes("id");
-		
+
 		FilterRequest request = builder.build();
 
 		String uri = buildScimFilterUrl("/Users", request);
@@ -125,11 +205,33 @@ public class UaaConnectionHelper {
 		}
 	}
 
+	/**
+	 * Make a REST call with default headers
+	 * 
+	 * @param method the Http Method (GET, POST, etc)
+	 * @param uri the URI of the endpoint (relative to the base URL set in the constructor)
+	 * @param body the request body
+	 * @param responseType the object type to be returned
+	 * @param uriVariables any uri variables
+	 * @return the response body
+	 * @see #exchange(HttpMethod, HttpHeaders, Object, String, Class, Object...)
+	 */
 	private <RequestType, ResponseType> ResponseType exchange(HttpMethod method, RequestType body, String uri,
 			Class<ResponseType> responseType, Object... uriVariables) {
 		return exchange(method, new HttpHeaders(), body, uri, responseType, uriVariables);
 	}
 
+	/**
+	 * Make a REST call with custom headers
+	 * 
+	 * @param method the Http Method (GET, POST, etc)
+	 * @param uri the URI of the endpoint (relative to the base URL set in the constructor)
+	 * @param body the request body
+	 * @param responseType the object type to be returned
+	 * @param uriVariables any uri variables
+	 * @return the response body
+	 * @see org.springframework.web.client.RestTemplate#exchange(String, HttpMethod, HttpEntity, Class, Object...)
+	 */
 	private <RequestType, ResponseType> ResponseType exchange(HttpMethod method, HttpHeaders headers, RequestType body,
 			String uri, Class<ResponseType> responseType, Object... uriVariables) {
 		getHeaders(headers);
@@ -138,7 +240,7 @@ public class UaaConnectionHelper {
 		template.setInterceptors(LoggerInterceptor.INTERCEPTOR);
 
 		HttpEntity<RequestType> requestEntity = null;
-		if (method == HttpMethod.GET || body == null) {
+		if (body == null) {
 			requestEntity = new HttpEntity<RequestType>(headers);
 		}
 		else {
@@ -163,6 +265,14 @@ public class UaaConnectionHelper {
 		}
 	}
 
+	/**
+	 * Because variable substitution used by {@link org.springframework.web.client.RestTemplate} escapes things in a way
+	 * that makes SCIM filtering difficult, manually include the parameters in the uri
+	 * 
+	 * @param baseUrl the url relative to the base URL (i.e. /Users, /oauth/clients, etc)
+	 * @param request the Filter Request to populate the URL
+	 * @return the URL
+	 */
 	public String buildScimFilterUrl(String baseUrl, FilterRequest request) {
 		StringBuilder uriBuilder = new StringBuilder(baseUrl);
 
@@ -214,6 +324,11 @@ public class UaaConnectionHelper {
 		return uriBuilder.toString();
 	}
 
+	/**
+	 * Add the Authorization, Content-Type, and Accept headers to the request
+	 * 
+	 * @param headers
+	 */
 	private void getHeaders(HttpHeaders headers) {
 		OAuth2AccessToken token = getAccessToken();
 		headers.add("Authorization", token.getTokenType() + " " + token.getValue());
@@ -227,6 +342,11 @@ public class UaaConnectionHelper {
 		}
 	}
 
+	/**
+	 * Get the OAuth access token (and refresh it if necessary)
+	 * 
+	 * @return
+	 */
 	private OAuth2AccessToken getAccessToken() {
 		if (token == null) {
 			OAuth2ProtectedResourceDetails details = getResourceDetails(url, creds);
@@ -239,6 +359,9 @@ public class UaaConnectionHelper {
 		return token;
 	}
 
+	/**
+	 * refresh the access token
+	 */
 	private void refreshAccessToken() {
 		Assert.notNull(token);
 
@@ -246,6 +369,14 @@ public class UaaConnectionHelper {
 		token = CHAIN.refreshAccessToken(details, token.getRefreshToken(), new DefaultAccessTokenRequest());
 	}
 
+	/**
+	 * Build the necessary details to get an access token for the correct token type (resource owner, client
+	 * credentials, or implicit, depending on how much information was provided)
+	 * 
+	 * @param url
+	 * @param creds
+	 * @return
+	 */
 	private OAuth2ProtectedResourceDetails getResourceDetails(URL url, UaaCredentials creds) {
 		Assert.notNull(url);
 		Assert.notNull(creds);
@@ -284,13 +415,22 @@ public class UaaConnectionHelper {
 		return details;
 	}
 
+	/**
+	 * An interceptor used to log information about HTTP calls
+	 * 
+	 * @author Josh Ghiloni
+	 *
+	 */
 	private static class LoggerInterceptor implements ClientHttpRequestInterceptor {
 		public static final List<ClientHttpRequestInterceptor> INTERCEPTOR = Arrays
 				.<ClientHttpRequestInterceptor> asList(new LoggerInterceptor());
 
 		public ClientHttpResponse intercept(HttpRequest request, byte[] body, ClientHttpRequestExecution execution)
 				throws IOException {
-			System.out.println(new String(body, "UTF-8"));
+			if (log.isDebugEnabled()) {
+				log.debug(new String(body, "UTF-8"));
+			}
+
 			return execution.execute(request, body);
 		}
 	}

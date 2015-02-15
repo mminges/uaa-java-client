@@ -23,6 +23,8 @@ import org.codehaus.jackson.map.annotate.JsonSerialize;
 import org.codehaus.jackson.map.annotate.JsonSerialize.Inclusion;
 
 /**
+ * A member of a group. Should only be instantiated by JSON parsing engines
+ * 
  * @author Josh Ghiloni
  *
  */
@@ -41,18 +43,34 @@ public class UaaGroupMember extends ValueObject {
 
 	private Collection<String> authorities;
 
+	/**
+	 * 
+	 * @return
+	 */
 	public String getType() {
 		return type;
 	}
 
+	/**
+	 * 
+	 * @param type
+	 */
 	public void setType(String type) {
 		this.type = type;
 	}
 
+	/**
+	 * 
+	 * @return
+	 */
 	public Collection<String> getAuthorities() {
 		return authorities;
 	}
 
+	/**
+	 * 
+	 * @param authorities
+	 */
 	public void setAuthorities(Collection<String> authorities) {
 		this.authorities = authorities;
 	}

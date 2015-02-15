@@ -21,8 +21,9 @@ import org.codehaus.jackson.map.annotate.JsonSerialize;
 import org.codehaus.jackson.map.annotate.JsonSerialize.Inclusion;
 
 /**
+ * Representation of a UAA group to LDAP group
+ * 
  * @author Josh Ghiloni
- *
  */
 @JsonIgnoreProperties(ignoreUnknown = true)
 @JsonSerialize(include = Inclusion.NON_NULL)
@@ -34,26 +35,49 @@ public class UaaGroupMapping extends ScimMetaObject {
 
 	private String externalGroup;
 
+	/**
+	 * @return the UAA group ID
+	 */
 	public String getGroupId() {
 		return groupId;
 	}
 
+	/**
+	 * 
+	 * @param groupId the UAA group ID
+	 */
 	public void setGroupId(String groupId) {
 		this.groupId = groupId;
 	}
 
+	/**
+	 * 
+	 * @return the UAA group display name
+	 */
 	public String getDisplayName() {
 		return displayName;
 	}
 
+	/**
+	 * 
+	 * @param displayName the UAA group display name
+	 */
 	public void setDisplayName(String displayName) {
 		this.displayName = displayName;
 	}
 
+	/**
+	 * 
+	 * @return the LDAP group's DN
+	 */
 	public String getExternalGroup() {
 		return externalGroup;
 	}
 
+	/**
+	 * 
+	 * @param externalGroup the LDAP group's DN
+	 */
 	public void setExternalGroup(String externalGroup) {
 		this.externalGroup = externalGroup;
 	}

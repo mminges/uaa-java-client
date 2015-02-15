@@ -25,6 +25,9 @@ import org.codehaus.jackson.map.annotate.JsonSerialize;
 import org.codehaus.jackson.map.annotate.JsonSerialize.Inclusion;
 
 /**
+ * Many of the UAA APIs follow <a href="http://www.simplecloud.info/">SCIM</a> standards. This object represents a base
+ * SCIM object with common metadata
+ * 
  * @author Josh Ghiloni
  *
  */
@@ -32,34 +35,51 @@ import org.codehaus.jackson.map.annotate.JsonSerialize.Inclusion;
 @JsonSerialize(include = Inclusion.NON_NULL)
 public abstract class ScimMetaObject {
 	public static final List<String> SCHEMAS = Arrays.asList("urn:scim:schemas:core:1.0");
-	
+
 	protected String id;
 
 	protected Collection<String> schemas;
 
 	protected Map<String, String> meta;
 
+	/**
+	 * @return The object's ID
+	 */
 	public String getId() {
 		return id;
 	}
 
+	/**
+	 * @param id The object's ID
+	 */
 	public void setId(String id) {
 		this.id = id;
 	}
 
+	/**
+	 * @return The schemas (currently always {@link #SCHEMAS})
+	 */
 	public Collection<String> getSchemas() {
 		return schemas;
 	}
 
+	/**
+	 * @param schemas The schemas. This is set by JSON engines and internal APIs and should not be manually set
+	 */
 	public void setSchemas(Collection<String> schemas) {
 		this.schemas = schemas;
 	}
 
-
+	/**
+	 * @return The metadata about the object (including version)
+	 */
 	public Map<String, String> getMeta() {
 		return meta;
 	}
 
+	/**
+	 * @param meta The metadata about the object. Set only by JSON engines
+	 */
 	public void setMeta(Map<String, String> meta) {
 		this.meta = meta;
 	}

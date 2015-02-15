@@ -23,14 +23,24 @@ import org.cloudfoundry.identity.uaa.api.common.impl.UaaConnectionImpl;
 import org.cloudfoundry.identity.uaa.api.common.model.UaaCredentials;
 
 /**
+ * The initial entry point for the API classes
+ * 
  * @author Josh Ghiloni
  *
  */
 public final class UaaConnectionFactory {
 	private UaaConnectionFactory() {
-		
+
 	}
 
+	/**
+	 * Get a connection object for the given UAA server, from which you can get access to different API operations.
+	 * 
+	 * @param uaaUrl the base {@link URL} of the UAA server. May have a path prefix (for example,
+	 * <code>http://localhost:8080/uaa</code>)
+	 * @param credentials the {@link UaaCredentials} representing the current user. May be client-only
+	 * @return the connection entry point
+	 */
 	public static UaaConnection getConnection(URL uaaUrl, UaaCredentials credentials) {
 		UaaConnectionHelper helper = new UaaConnectionHelper(uaaUrl, credentials);
 		return new UaaConnectionImpl(helper);

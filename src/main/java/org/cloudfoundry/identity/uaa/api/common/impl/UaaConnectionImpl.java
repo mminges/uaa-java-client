@@ -24,8 +24,8 @@ import org.cloudfoundry.identity.uaa.api.user.UaaUserOperations;
 import org.cloudfoundry.identity.uaa.api.user.impl.UaaUserOperationsImpl;
 
 /**
+ * @see UaaConnection
  * @author Josh Ghiloni
- *
  */
 public class UaaConnectionImpl implements UaaConnection {
 

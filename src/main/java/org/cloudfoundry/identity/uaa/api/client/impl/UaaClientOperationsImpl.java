@@ -26,6 +26,7 @@ import org.cloudfoundry.identity.uaa.api.common.model.expr.FilterRequest;
 import org.springframework.util.Assert;
 
 /**
+ * @see UaaClientOperations
  * @author Josh Ghiloni
  *
  */

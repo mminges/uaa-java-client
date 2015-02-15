@@ -43,8 +43,9 @@ import org.springframework.util.Assert;
 import org.springframework.util.StringUtils;
 
 /**
+ * @see UaaGroupOperations
+ * 
  * @author Josh Ghiloni
- *
  */
 public class UaaGroupOperationsImpl implements UaaGroupOperations {
 

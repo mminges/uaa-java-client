@@ -16,6 +16,8 @@
 package org.cloudfoundry.identity.uaa.api.common.model;
 
 /**
+ * Certain UAA API calls return objects in the form {"value":"some value"}. This object represents that.
+ * 
  * @author Josh Ghiloni
  *
  */
@@ -26,14 +28,23 @@ public class ValueObject {
 
 	}
 
+	/**
+	 * @param value The value to set
+	 */
 	public ValueObject(String value) {
 		this.value = value;
 	}
 
+	/**
+	 * @return the value
+	 */
 	public String getValue() {
 		return value;
 	}
 
+	/**
+	 * @param value The value to set
+	 */
 	public void setValue(String value) {
 		this.value = value;
 	}
