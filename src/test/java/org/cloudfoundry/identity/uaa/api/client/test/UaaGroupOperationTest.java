@@ -45,28 +45,12 @@ public class UaaGroupOperationTest {
 
 	@BeforeClass
 	public static void setUp() throws Exception {
-		long time = System.currentTimeMillis();
-		long timeout = time + (10 * 60 * 1000); // 10 minute timeout on startup
-
-		// now ve vait for the port to be open ...
-		boolean open = false;
-		while (System.currentTimeMillis() < timeout) {
-			try {
-				Socket test = new Socket("localhost", 8080);
-
-				// if we get here, something's listening on the port, close the socket and break out
-				test.close();
-				open = true;
-				break;
-			}
-			catch (IOException e) {
-				// wait for 5 seconds to avoid thrashing the system
-				Thread.sleep(5000L);
-			}
+		try {
+			Socket test = new Socket("localhost", 8080);
+			test.close();
+			fail("UAA not running");
 		}
-
-		if (!open) {
-			fail("UAA not open");
+		catch (IOException e) {
 		}
 
 		UaaCredentials credentials = new UaaCredentials("admin", "adminsecret");

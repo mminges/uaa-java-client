@@ -75,4 +75,15 @@ public class UaaUserOperationsImpl implements UaaUserOperations {
 
 		return helper.get(helper.buildScimFilterUrl("/Users", request), UaaUsersResults.class);
 	}
+
+	public UaaUser getUserByName(String userName) {
+		FilterRequest request = new FilterRequest(String.format("userName eq \"%s\"", userName), null, 0, 0);
+		PagedResult<UaaUser> result = getUsers(request);
+
+		if (result != null && result.getResources() != null && result.getResources().size() == 1) {
+			return result.getResources().iterator().next();
+		}
+
+		return null;
+	}
 }

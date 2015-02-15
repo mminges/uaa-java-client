@@ -35,7 +35,7 @@ public class UaaUser extends ScimMetaObject {
 	private String userName;
 
 	private Name name;
-	
+
 	private String password;
 
 	private Collection<ValueObject> emails;
@@ -98,6 +98,15 @@ public class UaaUser extends ScimMetaObject {
 		private String familyName;
 
 		private String givenName;
+
+		public Name() {
+		}
+
+		public Name(String formatted, String familyName, String givenName) {
+			this.formatted = formatted;
+			this.familyName = familyName;
+			this.givenName = givenName;
+		}
 
 		public String getFormatted() {
 			return formatted;

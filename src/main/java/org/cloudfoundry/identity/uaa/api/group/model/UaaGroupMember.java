@@ -29,6 +29,14 @@ import org.codehaus.jackson.map.annotate.JsonSerialize.Inclusion;
 @JsonIgnoreProperties(ignoreUnknown = true)
 @JsonSerialize(include = Inclusion.NON_NULL)
 public class UaaGroupMember extends ValueObject {
+	public UaaGroupMember() {
+		super();
+	}
+	
+	public UaaGroupMember(String value) {
+		super(value);
+	}
+
 	private String type;
 
 	private Collection<String> authorities;

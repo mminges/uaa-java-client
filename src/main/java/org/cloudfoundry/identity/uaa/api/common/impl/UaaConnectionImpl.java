@@ -20,6 +20,8 @@ import org.cloudfoundry.identity.uaa.api.client.impl.UaaClientOperationsImpl;
 import org.cloudfoundry.identity.uaa.api.common.UaaConnection;
 import org.cloudfoundry.identity.uaa.api.group.UaaGroupOperations;
 import org.cloudfoundry.identity.uaa.api.group.impl.UaaGroupOperationsImpl;
+import org.cloudfoundry.identity.uaa.api.user.UaaUserOperations;
+import org.cloudfoundry.identity.uaa.api.user.impl.UaaUserOperationsImpl;
 
 /**
  * @author Josh Ghiloni
@@ -39,5 +41,9 @@ public class UaaConnectionImpl implements UaaConnection {
 
 	public UaaGroupOperations groupOperations() {
 		return new UaaGroupOperationsImpl(helper);
+	}
+
+	public UaaUserOperations userOperations() {
+		return new UaaUserOperationsImpl(helper);
 	}
 }

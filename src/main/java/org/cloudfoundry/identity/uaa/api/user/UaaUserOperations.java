@@ -32,5 +32,7 @@ public interface UaaUserOperations {
 	
 	public void changeUserPassword(String userId, String newPassword);
 	
+	public UaaUser getUserByName(String userName);
+	
 	public PagedResult<UaaUser> getUsers(FilterRequest request);
 }

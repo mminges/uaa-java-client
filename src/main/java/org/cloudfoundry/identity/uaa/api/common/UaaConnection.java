@@ -17,6 +17,7 @@ package org.cloudfoundry.identity.uaa.api.common;
 
 import org.cloudfoundry.identity.uaa.api.client.UaaClientOperations;
 import org.cloudfoundry.identity.uaa.api.group.UaaGroupOperations;
+import org.cloudfoundry.identity.uaa.api.user.UaaUserOperations;
 
 /**
  * @author Josh Ghiloni
@@ -25,4 +26,5 @@ import org.cloudfoundry.identity.uaa.api.group.UaaGroupOperations;
 public interface UaaConnection {
 	public UaaClientOperations clientOperations();
 	public UaaGroupOperations groupOperations();
+	public UaaUserOperations userOperations();
 }

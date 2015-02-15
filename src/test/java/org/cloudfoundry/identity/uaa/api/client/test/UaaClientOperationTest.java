@@ -20,6 +20,8 @@ import static org.junit.Assert.assertNotEquals;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.fail;
 
+import java.io.IOException;
+import java.net.Socket;
 import java.net.URL;
 import java.util.Arrays;
 import java.util.Collections;
@@ -45,6 +47,14 @@ public class UaaClientOperationTest {
 
 	@BeforeClass
 	public static void setUp() throws Exception {
+		try {
+			Socket test = new Socket("localhost", 8080);
+			test.close();
+			fail("UAA not running");
+		}
+		catch (IOException e) {
+		}
+
 		UaaCredentials credentials = new UaaCredentials("admin", "adminsecret");
 		UaaConnection connection = UaaConnectionFactory
 				.getConnection(new URL("http://localhost:8080/uaa"), credentials);
@@ -85,7 +95,7 @@ public class UaaClientOperationTest {
 
 		try {
 			UaaClient client = operations.findById(toUpdate.getClientId());
-			
+
 			toUpdate.setScope(Arrays.asList("foo"));
 			UaaClient updated = operations.update(toUpdate);
 			assertNotEquals(client.getScope(), updated.getScope());

@@ -22,6 +22,14 @@ package org.cloudfoundry.identity.uaa.api.common.model;
 public class ValueObject {
 	private String value;
 
+	public ValueObject() {
+
+	}
+
+	public ValueObject(String value) {
+		this.value = value;
+	}
+
 	public String getValue() {
 		return value;
 	}
