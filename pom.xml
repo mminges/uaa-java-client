@@ -3,7 +3,6 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>com.ecsteam</groupId>
 	<artifactId>uaa-java-client</artifactId>
-	<version>0.0.1-SNAPSHOT</version>
 	<name>Java UAA API Client</name>
 	<dependencies>
 		<dependency>
@@ -20,6 +19,13 @@
 	</dependencies>
 	<build>
 		<plugins>
+			<plugin>
+	        	<artifactId>maven-compiler-plugin</artifactId>
+		        <configuration>
+		            <source>1.7</source>
+		            <target>1.7</target>
+		        </configuration>
+		    </plugin>
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-source-plugin</artifactId>
@@ -46,4 +52,8 @@
 			</plugin>
 		</plugins>
 	</build>
+	<version>1.0.0-RELEASE</version>
+	<properties>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+	</properties>
 </project>
