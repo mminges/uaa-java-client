@@ -25,9 +25,9 @@ import java.util.Collections;
 
 import org.cloudfoundry.identity.uaa.api.client.UaaClientOperations;
 import org.cloudfoundry.identity.uaa.api.client.model.UaaClient;
-import org.cloudfoundry.identity.uaa.api.common.model.FilterRequest;
 import org.cloudfoundry.identity.uaa.api.common.model.PagedResult;
 import org.cloudfoundry.identity.uaa.api.common.model.UaaTokenGrantType;
+import org.cloudfoundry.identity.uaa.api.common.model.expr.FilterRequestBuilder;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
@@ -50,7 +50,7 @@ public class UaaClientOperationTest extends AbstractOperationTest {
 	public void testGetClients() throws Exception {
 		ignoreIfUaaNotRunning();
 		
-		PagedResult<UaaClient> clients = operations.getClients(FilterRequest.SHOW_ALL);
+		PagedResult<UaaClient> clients = operations.getClients(FilterRequestBuilder.showAll());
 
 		assertEquals("Total Results wrong", 11, clients.getTotalResults());
 		assertEquals("Items Per Page wrong", 11, clients.getItemsPerPage());

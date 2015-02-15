@@ -19,6 +19,6 @@ package org.cloudfoundry.identity.uaa.api.common.model.expr;
  * @author Josh Ghiloni
  *
  */
-public interface Operation {
+interface Operation {
 
 }

@@ -19,8 +19,8 @@ package org.cloudfoundry.identity.uaa.api.common.model.expr;
  * @author Josh Ghiloni
  *
  */
-public class PrecedenceOperator extends UnaryOperation<Operation> {
-	public PrecedenceOperator(Operation left) {
+class PrecedenceOperator extends UnaryOperation<Operation> {
+	PrecedenceOperator(Operation left) {
 		super(left);
 	}
 

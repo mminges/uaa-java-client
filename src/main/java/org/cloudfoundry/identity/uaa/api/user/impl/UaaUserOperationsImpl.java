@@ -20,9 +20,9 @@ import static org.cloudfoundry.identity.uaa.api.common.model.ScimMetaObject.SCHE
 import java.util.Collections;
 
 import org.cloudfoundry.identity.uaa.api.common.impl.UaaConnectionHelper;
-import org.cloudfoundry.identity.uaa.api.common.model.FilterRequest;
-import org.cloudfoundry.identity.uaa.api.common.model.FilterRequestBuilder;
 import org.cloudfoundry.identity.uaa.api.common.model.PagedResult;
+import org.cloudfoundry.identity.uaa.api.common.model.expr.FilterRequest;
+import org.cloudfoundry.identity.uaa.api.common.model.expr.FilterRequestBuilder;
 import org.cloudfoundry.identity.uaa.api.user.UaaUserOperations;
 import org.cloudfoundry.identity.uaa.api.user.model.UaaUser;
 import org.cloudfoundry.identity.uaa.api.user.model.UaaUsersResults;

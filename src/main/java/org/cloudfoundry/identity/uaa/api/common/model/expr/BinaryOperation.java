@@ -23,7 +23,7 @@ import java.util.Date;
  * @author Josh Ghiloni
  *
  */
-public abstract class BinaryOperation<L, R> extends UnaryOperation<L> {
+abstract class BinaryOperation<L, R> extends UnaryOperation<L> {
 	protected R right;
 
 	protected String operator;
@@ -35,12 +35,12 @@ public abstract class BinaryOperation<L, R> extends UnaryOperation<L> {
 	 * @param left
 	 * @param right
 	 */
-	public BinaryOperation(L left, R right) {
+	BinaryOperation(L left, R right) {
 		super(left);
 		this.right = right;
 	}
 
-	public R getRight() {
+	R getRight() {
 		return right;
 	}
 

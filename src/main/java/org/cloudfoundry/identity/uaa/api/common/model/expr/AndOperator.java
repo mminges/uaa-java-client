@@ -19,8 +19,8 @@ package org.cloudfoundry.identity.uaa.api.common.model.expr;
  * @author Josh Ghiloni
  *
  */
-public class AndOperator extends BinaryOperation<Operation, Operation> {
-	public AndOperator(Operation left, Operation right) {
+class AndOperator extends BinaryOperation<Operation, Operation> {
+	AndOperator(Operation left, Operation right) {
 		super(left, right);
 		this.operator = "and";
 	}

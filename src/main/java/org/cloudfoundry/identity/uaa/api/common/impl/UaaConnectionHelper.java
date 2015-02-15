@@ -24,10 +24,10 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
-import org.cloudfoundry.identity.uaa.api.common.model.FilterRequest;
-import org.cloudfoundry.identity.uaa.api.common.model.FilterRequestBuilder;
 import org.cloudfoundry.identity.uaa.api.common.model.ScimMetaObject;
 import org.cloudfoundry.identity.uaa.api.common.model.UaaCredentials;
+import org.cloudfoundry.identity.uaa.api.common.model.expr.FilterRequest;
+import org.cloudfoundry.identity.uaa.api.common.model.expr.FilterRequestBuilder;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;

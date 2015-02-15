@@ -17,19 +17,12 @@ package org.cloudfoundry.identity.uaa.api.client.test;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.fail;
 
-import java.io.IOException;
-import java.net.Socket;
-import java.net.URL;
 import java.util.Collections;
 
-import org.cloudfoundry.identity.uaa.api.UaaConnectionFactory;
-import org.cloudfoundry.identity.uaa.api.common.UaaConnection;
-import org.cloudfoundry.identity.uaa.api.common.model.FilterRequest;
 import org.cloudfoundry.identity.uaa.api.common.model.PagedResult;
-import org.cloudfoundry.identity.uaa.api.common.model.UaaCredentials;
 import org.cloudfoundry.identity.uaa.api.common.model.ValueObject;
+import org.cloudfoundry.identity.uaa.api.common.model.expr.FilterRequestBuilder;
 import org.cloudfoundry.identity.uaa.api.user.UaaUserOperations;
 import org.cloudfoundry.identity.uaa.api.user.model.UaaUser;
 import org.junit.BeforeClass;
@@ -53,7 +46,7 @@ public class UaaUserOperationTest extends AbstractOperationTest {
 	public void testUserRetrieval() {
 		ignoreIfUaaNotRunning();
 
-		PagedResult<UaaUser> users = operations.getUsers(FilterRequest.SHOW_ALL);
+		PagedResult<UaaUser> users = operations.getUsers(FilterRequestBuilder.showAll());
 
 		assertNotNull(users);
 

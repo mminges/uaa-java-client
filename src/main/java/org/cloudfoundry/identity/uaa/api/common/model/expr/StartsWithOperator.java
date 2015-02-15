@@ -19,8 +19,8 @@ package org.cloudfoundry.identity.uaa.api.common.model.expr;
  * @author Josh Ghiloni
  *
  */
-public class StartsWithOperator extends BinaryOperation<String, String> {
-	public StartsWithOperator(String left, String right) {
+class StartsWithOperator extends BinaryOperation<String, String> {
+	StartsWithOperator(String left, String right) {
 		super(left, right);
 		this.operator = "sw";
 	}

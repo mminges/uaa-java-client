@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.cloudfoundry.identity.uaa.api.common.model;
+package org.cloudfoundry.identity.uaa.api.common.model.expr;
 
 import java.util.List;
 
@@ -57,5 +57,5 @@ public class FilterRequest {
 		return attributes;
 	}
 	
-	public static final FilterRequest SHOW_ALL = new FilterRequest(null, null, 0, 0);
+	static final FilterRequest SHOW_ALL = new FilterRequest(null, null, 0, 0);
 }

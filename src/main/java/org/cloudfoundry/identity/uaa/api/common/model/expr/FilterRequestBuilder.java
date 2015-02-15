@@ -13,25 +13,12 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.cloudfoundry.identity.uaa.api.common.model;
+package org.cloudfoundry.identity.uaa.api.common.model.expr;
 
 import java.util.Arrays;
 import java.util.List;
 import java.util.Stack;
 
-import org.cloudfoundry.identity.uaa.api.common.model.expr.AndOperator;
-import org.cloudfoundry.identity.uaa.api.common.model.expr.ContainsOperator;
-import org.cloudfoundry.identity.uaa.api.common.model.expr.EqualsOperation;
-import org.cloudfoundry.identity.uaa.api.common.model.expr.GreaterEqualOperation;
-import org.cloudfoundry.identity.uaa.api.common.model.expr.GreaterThanOperation;
-import org.cloudfoundry.identity.uaa.api.common.model.expr.LessEqualOperation;
-import org.cloudfoundry.identity.uaa.api.common.model.expr.LessThanOperation;
-import org.cloudfoundry.identity.uaa.api.common.model.expr.NullOperation;
-import org.cloudfoundry.identity.uaa.api.common.model.expr.Operation;
-import org.cloudfoundry.identity.uaa.api.common.model.expr.OrOperator;
-import org.cloudfoundry.identity.uaa.api.common.model.expr.PrecedenceOperator;
-import org.cloudfoundry.identity.uaa.api.common.model.expr.PresentOperator;
-import org.cloudfoundry.identity.uaa.api.common.model.expr.StartsWithOperator;
 import org.springframework.util.Assert;
 
 /**
@@ -170,6 +157,10 @@ public class FilterRequestBuilder {
 		Assert.state(count > 0);
 		this.count = count;
 		return this;
+	}
+
+	public static FilterRequest showAll() {
+		return FilterRequest.SHOW_ALL;
 	}
 
 	public FilterRequest build() {

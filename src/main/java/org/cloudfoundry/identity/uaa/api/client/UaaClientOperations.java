@@ -16,8 +16,8 @@
 package org.cloudfoundry.identity.uaa.api.client;
 
 import org.cloudfoundry.identity.uaa.api.client.model.UaaClient;
-import org.cloudfoundry.identity.uaa.api.common.model.FilterRequest;
 import org.cloudfoundry.identity.uaa.api.common.model.PagedResult;
+import org.cloudfoundry.identity.uaa.api.common.model.expr.FilterRequest;
 
 /**
  * @author Josh Ghiloni

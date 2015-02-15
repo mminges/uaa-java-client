@@ -19,8 +19,8 @@ package org.cloudfoundry.identity.uaa.api.common.model.expr;
  * @author Josh Ghiloni
  *
  */
-public class OrOperator extends BinaryOperation<Operation, Operation> {
-	public OrOperator(Operation left, Operation right) {
+class OrOperator extends BinaryOperation<Operation, Operation> {
+	OrOperator(Operation left, Operation right) {
 		super(left, right);
 		this.operator = "or";
 	}

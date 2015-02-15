@@ -19,8 +19,8 @@ package org.cloudfoundry.identity.uaa.api.common.model.expr;
  * @author Josh Ghiloni
  *
  */
-public class ContainsOperator extends BinaryOperation<String, String> {
-	public ContainsOperator(String left, String right) {
+class ContainsOperator extends BinaryOperation<String, String> {
+	ContainsOperator(String left, String right) {
 		super(left, right);
 		this.operator = "co";
 	}

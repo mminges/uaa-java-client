@@ -19,7 +19,7 @@ package org.cloudfoundry.identity.uaa.api.common.model.expr;
  * @author Josh Ghiloni
  *
  */
-public class NullOperation implements Operation {
+class NullOperation implements Operation {
 
 	private NullOperation() {
 	}
@@ -29,5 +29,5 @@ public class NullOperation implements Operation {
 		return null;
 	}
 	
-	public static final NullOperation INSTANCE = new NullOperation();
+	static final NullOperation INSTANCE = new NullOperation();
 }

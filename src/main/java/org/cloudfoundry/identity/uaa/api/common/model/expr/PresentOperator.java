@@ -19,8 +19,8 @@ package org.cloudfoundry.identity.uaa.api.common.model.expr;
  * @author Josh Ghiloni
  *
  */
-public class PresentOperator extends UnaryOperation<String> {
-	public PresentOperator(String left) {
+class PresentOperator extends UnaryOperation<String> {
+	PresentOperator(String left) {
 		super(left);
 		this.operator = "pr";
 	}

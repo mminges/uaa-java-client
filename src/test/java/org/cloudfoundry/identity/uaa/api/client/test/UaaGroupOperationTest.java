@@ -21,8 +21,8 @@ import static org.junit.Assert.assertTrue;
 
 import java.util.Collection;
 
-import org.cloudfoundry.identity.uaa.api.common.model.FilterRequest;
 import org.cloudfoundry.identity.uaa.api.common.model.PagedResult;
+import org.cloudfoundry.identity.uaa.api.common.model.expr.FilterRequestBuilder;
 import org.cloudfoundry.identity.uaa.api.group.UaaGroupOperations;
 import org.cloudfoundry.identity.uaa.api.group.model.UaaGroup;
 import org.cloudfoundry.identity.uaa.api.group.model.UaaGroupMember;
@@ -46,7 +46,7 @@ public class UaaGroupOperationTest extends AbstractOperationTest {
 	@Test
 	public void testGroupRetrieval() {
 		ignoreIfUaaNotRunning();
-		PagedResult<UaaGroup> groups = operations.getGroups(FilterRequest.SHOW_ALL);
+		PagedResult<UaaGroup> groups = operations.getGroups(FilterRequestBuilder.showAll());
 
 		assertNotNull(groups);
 

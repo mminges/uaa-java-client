@@ -25,9 +25,9 @@ import java.util.List;
 import java.util.Map;
 
 import org.cloudfoundry.identity.uaa.api.common.impl.UaaConnectionHelper;
-import org.cloudfoundry.identity.uaa.api.common.model.FilterRequest;
-import org.cloudfoundry.identity.uaa.api.common.model.FilterRequestBuilder;
 import org.cloudfoundry.identity.uaa.api.common.model.ScimMetaObject;
+import org.cloudfoundry.identity.uaa.api.common.model.expr.FilterRequest;
+import org.cloudfoundry.identity.uaa.api.common.model.expr.FilterRequestBuilder;
 import org.cloudfoundry.identity.uaa.api.group.UaaGroupOperations;
 import org.cloudfoundry.identity.uaa.api.group.model.UaaGroup;
 import org.cloudfoundry.identity.uaa.api.group.model.UaaGroupMapping;

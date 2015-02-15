@@ -19,8 +19,8 @@ package org.cloudfoundry.identity.uaa.api.common.model.expr;
  * @author Josh Ghiloni
  *
  */
-public class LessEqualOperation extends BinaryOperation<String, Object> {
-	public LessEqualOperation(String left, Object right) {
+class LessEqualOperation extends BinaryOperation<String, Object> {
+	LessEqualOperation(String left, Object right) {
 		super(left, right);
 		this.operator = "le";
 	}

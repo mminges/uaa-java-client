@@ -19,8 +19,8 @@ package org.cloudfoundry.identity.uaa.api.common.model.expr;
  * @author Josh Ghiloni
  *
  */
-public class EqualsOperation extends BinaryOperation<String, Object> {
-	public EqualsOperation(String left, Object right) {
+class EqualsOperation extends BinaryOperation<String, Object> {
+	EqualsOperation(String left, Object right) {
 		super(left, right);
 		this.operator = "eq";
 	}

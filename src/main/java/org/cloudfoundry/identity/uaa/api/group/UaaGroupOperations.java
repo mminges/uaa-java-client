@@ -15,8 +15,8 @@
  */
 package org.cloudfoundry.identity.uaa.api.group;
 
-import org.cloudfoundry.identity.uaa.api.common.model.FilterRequest;
 import org.cloudfoundry.identity.uaa.api.common.model.PagedResult;
+import org.cloudfoundry.identity.uaa.api.common.model.expr.FilterRequest;
 import org.cloudfoundry.identity.uaa.api.group.model.UaaGroup;
 import org.cloudfoundry.identity.uaa.api.group.model.UaaGroupMapping;
 import org.cloudfoundry.identity.uaa.api.group.model.UaaGroupMappingIdentifier;

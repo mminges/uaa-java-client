@@ -22,7 +22,7 @@ import org.cloudfoundry.identity.uaa.api.client.UaaClientOperations;
 import org.cloudfoundry.identity.uaa.api.client.model.UaaClient;
 import org.cloudfoundry.identity.uaa.api.client.model.UaaClientsResults;
 import org.cloudfoundry.identity.uaa.api.common.impl.UaaConnectionHelper;
-import org.cloudfoundry.identity.uaa.api.common.model.FilterRequest;
+import org.cloudfoundry.identity.uaa.api.common.model.expr.FilterRequest;
 import org.springframework.util.Assert;
 
 /**

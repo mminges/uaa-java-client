@@ -20,7 +20,7 @@ package org.cloudfoundry.identity.uaa.api.common.model.expr;
  * @author Josh Ghiloni
  *
  */
-public abstract class UnaryOperation<L> implements Operation {
+abstract class UnaryOperation<L> implements Operation {
 	protected L left;
 
 	protected String operator;
@@ -28,15 +28,15 @@ public abstract class UnaryOperation<L> implements Operation {
 	/**
 	 * @param left
 	 */
-	public UnaryOperation(L left) {
+	UnaryOperation(L left) {
 		this.left = left;
 	}
 
-	public L getLeft() {
+	L getLeft() {
 		return left;
 	}
 
-	public String getOperator() {
+	String getOperator() {
 		return operator;
 	}
 

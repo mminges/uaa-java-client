@@ -19,8 +19,8 @@ package org.cloudfoundry.identity.uaa.api.common.model.expr;
  * @author Josh Ghiloni
  *
  */
-public class GreaterThanOperation extends BinaryOperation<String, Object> {
-	public GreaterThanOperation(String left, Object right) {
+class GreaterThanOperation extends BinaryOperation<String, Object> {
+	GreaterThanOperation(String left, Object right) {
 		super(left, right);
 		this.operator = "gt";
 	}

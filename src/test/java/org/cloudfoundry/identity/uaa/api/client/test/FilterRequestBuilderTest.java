@@ -23,8 +23,8 @@ import java.util.Calendar;
 import java.util.List;
 import java.util.TimeZone;
 
-import org.cloudfoundry.identity.uaa.api.common.model.FilterRequest;
-import org.cloudfoundry.identity.uaa.api.common.model.FilterRequestBuilder;
+import org.cloudfoundry.identity.uaa.api.common.model.expr.FilterRequest;
+import org.cloudfoundry.identity.uaa.api.common.model.expr.FilterRequestBuilder;
 import org.junit.Test;
 
 /**
