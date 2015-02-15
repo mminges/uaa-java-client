@@ -34,7 +34,7 @@ public class FilterRequest {
 		
 	}
 
-	public FilterRequest(String filter, List<String> attributes, int start, int count) {
+	FilterRequest(String filter, List<String> attributes, int start, int count) {
 		this.filter = filter;
 		this.attributes = attributes;
 		this.start = start;

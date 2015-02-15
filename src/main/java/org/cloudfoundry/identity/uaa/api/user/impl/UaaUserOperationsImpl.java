@@ -21,6 +21,7 @@ import java.util.Collections;
 
 import org.cloudfoundry.identity.uaa.api.common.impl.UaaConnectionHelper;
 import org.cloudfoundry.identity.uaa.api.common.model.FilterRequest;
+import org.cloudfoundry.identity.uaa.api.common.model.FilterRequestBuilder;
 import org.cloudfoundry.identity.uaa.api.common.model.PagedResult;
 import org.cloudfoundry.identity.uaa.api.user.UaaUserOperations;
 import org.cloudfoundry.identity.uaa.api.user.model.UaaUser;
@@ -77,7 +78,7 @@ public class UaaUserOperationsImpl implements UaaUserOperations {
 	}
 
 	public UaaUser getUserByName(String userName) {
-		FilterRequest request = new FilterRequest(String.format("userName eq \"%s\"", userName), null, 0, 0);
+		FilterRequest request = new FilterRequestBuilder().equals("username", userName).build();
 		PagedResult<UaaUser> result = getUsers(request);
 
 		if (result != null && result.getResources() != null && result.getResources().size() == 1) {

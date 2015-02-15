@@ -20,19 +20,13 @@ import static org.junit.Assert.assertNotEquals;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.fail;
 
-import java.io.IOException;
-import java.net.Socket;
-import java.net.URL;
 import java.util.Arrays;
 import java.util.Collections;
 
-import org.cloudfoundry.identity.uaa.api.UaaConnectionFactory;
 import org.cloudfoundry.identity.uaa.api.client.UaaClientOperations;
 import org.cloudfoundry.identity.uaa.api.client.model.UaaClient;
-import org.cloudfoundry.identity.uaa.api.common.UaaConnection;
 import org.cloudfoundry.identity.uaa.api.common.model.FilterRequest;
 import org.cloudfoundry.identity.uaa.api.common.model.PagedResult;
-import org.cloudfoundry.identity.uaa.api.common.model.UaaCredentials;
 import org.cloudfoundry.identity.uaa.api.common.model.UaaTokenGrantType;
 import org.junit.BeforeClass;
 import org.junit.Test;
@@ -41,38 +35,32 @@ import org.junit.Test;
  * @author Josh Ghiloni
  *
  */
-public class UaaClientOperationTest {
+public class UaaClientOperationTest extends AbstractOperationTest {
 
 	private static UaaClientOperations operations;
 
 	@BeforeClass
 	public static void setUp() throws Exception {
-		try {
-			Socket test = new Socket("localhost", 8080);
-			test.close();
-			fail("UAA not running");
-		}
-		catch (IOException e) {
-		}
-
-		UaaCredentials credentials = new UaaCredentials("admin", "adminsecret");
-		UaaConnection connection = UaaConnectionFactory
-				.getConnection(new URL("http://localhost:8080/uaa"), credentials);
-
-		operations = connection.clientOperations();
+		init();
+		
+		operations = getConnection().clientOperations();
 	}
 
 	@Test
 	public void testGetClients() throws Exception {
+		ignoreIfUaaNotRunning();
+		
 		PagedResult<UaaClient> clients = operations.getClients(FilterRequest.SHOW_ALL);
 
-		assertEquals("Total Results wrong", 6, clients.getTotalResults());
-		assertEquals("Items Per Page wrong", 6, clients.getItemsPerPage());
-		assertEquals("Actual result count wrong", 6, clients.getResources().size());
+		assertEquals("Total Results wrong", 11, clients.getTotalResults());
+		assertEquals("Items Per Page wrong", 11, clients.getItemsPerPage());
+		assertEquals("Actual result count wrong", 11, clients.getResources().size());
 	}
 
 	@Test
 	public void testGetClient() throws Exception {
+		ignoreIfUaaNotRunning();
+		
 		UaaClient client = operations.findById("app");
 
 		assertEquals("ID wrong", "app", client.getClientId());
@@ -81,6 +69,8 @@ public class UaaClientOperationTest {
 
 	@Test
 	public void testCreateDelete() throws Exception {
+		ignoreIfUaaNotRunning();
+		
 		UaaClient client = createClient();
 
 		UaaClient checkClient = operations.findById(client.getClientId());
@@ -91,6 +81,8 @@ public class UaaClientOperationTest {
 
 	@Test
 	public void testUpdate() throws Exception {
+		ignoreIfUaaNotRunning();
+		
 		UaaClient toUpdate = createClient();
 
 		try {
@@ -108,6 +100,8 @@ public class UaaClientOperationTest {
 
 	@Test
 	public void testChangePassword() throws Exception {
+		ignoreIfUaaNotRunning();
+		
 		UaaClient client = operations.findById("admin");
 
 		operations.changeClientSecret(client.getClientId(), "adminsecret", "newSecret");
@@ -119,7 +113,7 @@ public class UaaClientOperationTest {
 		catch (Exception e) {
 		}
 		finally {
-
+			operations.changeClientSecret(client.getClientId(), "newSecret", "adminsecret");
 		}
 	}
 

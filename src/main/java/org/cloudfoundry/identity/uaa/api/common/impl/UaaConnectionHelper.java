@@ -25,6 +25,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.cloudfoundry.identity.uaa.api.common.model.FilterRequest;
+import org.cloudfoundry.identity.uaa.api.common.model.FilterRequestBuilder;
 import org.cloudfoundry.identity.uaa.api.common.model.ScimMetaObject;
 import org.cloudfoundry.identity.uaa.api.common.model.UaaCredentials;
 import org.springframework.http.HttpEntity;
@@ -100,15 +101,17 @@ public class UaaConnectionHelper {
 	}
 
 	public String getUserIdByName(String userName) {
-		FilterRequest request = new FilterRequest(String.format("userName eq \"%s\"", userName), Arrays.asList("id"),
-				0, 0);
+		FilterRequestBuilder builder = new FilterRequestBuilder();
+		builder.equals("username", userName).attributes("id");
+		
+		FilterRequest request = builder.build();
 
 		String uri = buildScimFilterUrl("/Users", request);
 
 		try {
 
-			@SuppressWarnings("unchecked")
-			Map<String, Object> retval = exchange(HttpMethod.GET, null, uri, Map.class);
+			@SuppressWarnings({ "rawtypes" })
+			Map retval = exchange(HttpMethod.GET, null, uri, Map.class);
 
 			@SuppressWarnings("unchecked")
 			Collection<Map<String, Object>> resources = (Collection<Map<String, Object>>) retval.get("resources");

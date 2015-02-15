@@ -39,28 +39,20 @@ import org.junit.Test;
  * @author Josh Ghiloni
  *
  */
-public class UaaUserOperationTest {
+public class UaaUserOperationTest extends AbstractOperationTest {
 	private static UaaUserOperations operations;
 
 	@BeforeClass
 	public static void setUp() throws Exception {
-		try {
-			Socket test = new Socket("localhost", 8080);
-			test.close();
-		}
-		catch (IOException e) {
-			fail("UAA not running");
-		} 
+		init();
 
-		UaaCredentials credentials = new UaaCredentials("admin", "adminsecret");
-		UaaConnection connection = UaaConnectionFactory
-				.getConnection(new URL("http://localhost:8080/uaa"), credentials);
-
-		operations = connection.userOperations();
+		operations = getConnection().userOperations();
 	}
 
 	@Test
 	public void testUserRetrieval() {
+		ignoreIfUaaNotRunning();
+
 		PagedResult<UaaUser> users = operations.getUsers(FilterRequest.SHOW_ALL);
 
 		assertNotNull(users);
@@ -73,28 +65,30 @@ public class UaaUserOperationTest {
 
 	@Test
 	public void testUserCreateUpdateDelete() {
+		ignoreIfUaaNotRunning();
 		UaaUser newUser = new UaaUser();
 		newUser.setUserName("testuser");
 		newUser.setName(new UaaUser.Name("Test User", "User", "Test"));
 		newUser.setEmails(Collections.singleton(new ValueObject("testuser@test.com")));
 		newUser.setPhoneNumbers(Collections.singleton(new ValueObject("303-555-1212")));
 		newUser.setPassword("p4ssw0rd");
-		
+
 		UaaUser createdUser = operations.createUser(newUser);
 		assertNotNull(createdUser.getId());
-		
+
 		createdUser.setPhoneNumbers(Collections.singleton(new ValueObject("212-867-5309")));
 		UaaUser updatedUser = operations.updateUser(createdUser);
-		
+
 		assertEquals(createdUser.getId(), updatedUser.getId());
-		
+
 		operations.deleteUser(updatedUser.getId());
 	}
-	
+
 	@Test
 	public void testUserPasswordChange() {
+		ignoreIfUaaNotRunning();
 		UaaUser user = operations.getUserByName("marissa");
-		
+
 		operations.changeUserPassword(user.getId(), "newk0ala");
 	}
 }

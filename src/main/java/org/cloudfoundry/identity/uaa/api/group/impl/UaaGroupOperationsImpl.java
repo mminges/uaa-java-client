@@ -26,6 +26,7 @@ import java.util.Map;
 
 import org.cloudfoundry.identity.uaa.api.common.impl.UaaConnectionHelper;
 import org.cloudfoundry.identity.uaa.api.common.model.FilterRequest;
+import org.cloudfoundry.identity.uaa.api.common.model.FilterRequestBuilder;
 import org.cloudfoundry.identity.uaa.api.common.model.ScimMetaObject;
 import org.cloudfoundry.identity.uaa.api.group.UaaGroupOperations;
 import org.cloudfoundry.identity.uaa.api.group.model.UaaGroup;
@@ -164,7 +165,7 @@ public class UaaGroupOperationsImpl implements UaaGroupOperations {
 	}
 
 	private UaaGroup getGroupById(String groupId) {
-		FilterRequest request = new FilterRequest(String.format("id eq \"%s\"", groupId), null, 0, 0);
+		FilterRequest request = new FilterRequestBuilder().equals("id", groupId).build();
 		UaaGroupsResults results = getGroups(request);
 
 		if (results.getTotalResults() > 0) {

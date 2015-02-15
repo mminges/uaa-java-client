@@ -18,18 +18,11 @@ package org.cloudfoundry.identity.uaa.api.client.test;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.fail;
 
-import java.io.IOException;
-import java.net.Socket;
-import java.net.URL;
 import java.util.Collection;
 
-import org.cloudfoundry.identity.uaa.api.UaaConnectionFactory;
-import org.cloudfoundry.identity.uaa.api.common.UaaConnection;
 import org.cloudfoundry.identity.uaa.api.common.model.FilterRequest;
 import org.cloudfoundry.identity.uaa.api.common.model.PagedResult;
-import org.cloudfoundry.identity.uaa.api.common.model.UaaCredentials;
 import org.cloudfoundry.identity.uaa.api.group.UaaGroupOperations;
 import org.cloudfoundry.identity.uaa.api.group.model.UaaGroup;
 import org.cloudfoundry.identity.uaa.api.group.model.UaaGroupMember;
@@ -40,28 +33,19 @@ import org.junit.Test;
  * @author Josh Ghiloni
  *
  */
-public class UaaGroupOperationTest {
+public class UaaGroupOperationTest extends AbstractOperationTest {
 	private static UaaGroupOperations operations;
 
 	@BeforeClass
 	public static void setUp() throws Exception {
-		try {
-			Socket test = new Socket("localhost", 8080);
-			test.close();
-			fail("UAA not running");
-		}
-		catch (IOException e) {
-		}
+		init();
 
-		UaaCredentials credentials = new UaaCredentials("admin", "adminsecret");
-		UaaConnection connection = UaaConnectionFactory
-				.getConnection(new URL("http://localhost:8080/uaa"), credentials);
-
-		operations = connection.groupOperations();
+		operations = getConnection().groupOperations();
 	}
 
 	@Test
 	public void testGroupRetrieval() {
+		ignoreIfUaaNotRunning();
 		PagedResult<UaaGroup> groups = operations.getGroups(FilterRequest.SHOW_ALL);
 
 		assertNotNull(groups);
@@ -74,6 +58,8 @@ public class UaaGroupOperationTest {
 
 	@Test
 	public void testGroupCreateUpdateDelete() {
+		ignoreIfUaaNotRunning();
+		
 		String id = "marissa";
 
 		UaaGroup newGroup = new UaaGroup();
